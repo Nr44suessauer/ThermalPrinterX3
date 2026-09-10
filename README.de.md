@@ -19,21 +19,17 @@ Oberfläche und Doku gibt es auf **Englisch, Deutsch, Japanisch und Chinesisch**
 
 Projekt-Webseite: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
 
-![X3 Thermodrucker – Desktop-Programm mit Live-Vorschau (deutsche Oberfläche)](docs/images/gui-de.png)
-
-*Das Desktop-Programm: links die Bedienelemente, rechts die millimetergenaue
-Live-Vorschau (hier mit der Webseite `www.deadlinedriven.dev` – derselbe Inhalt,
-den auch die QR-Vorlage druckt).*
-
-**Reiter „Bild“** – Fotos, Logos und Vektorgrafiken mit Schwelle, Dithering, Invertieren,
-Drehen, Strecken und Zuschneiden; die Vorschau zeigt das gerasterte Schwarz/Weiß-Ergebnis
-schon vor dem Drucken:
-
 ![X3 Thermodrucker – Reiter Bild mit Schwelle, Dithering, Drehen und Strecken für Fotos](docs/images/gui-image-de.png)
 
-*Der Reiter „Bild“ mit dem mitgelieferten Beispielbild (`assets/sample.jpg`): Schwelle 190 %,
-Dithering an, alle Maße in mm, blaue Griffe zum Ziehen und Skalieren – alle Werte werden
-gespeichert und beim nächsten Druck wieder verwendet.*
+*Der **Reiter „Bild“** mit dem mitgelieferten Beispielbild (`assets/sample.jpg`): Schwelle 190,
+Dithering an, alle Maße in mm und blaue Griffe zum Ziehen und Skalieren – die Vorschau zeigt
+das gerasterte Schwarz/Weiß-Ergebnis schon vor dem Drucken.*
+
+![X3 Thermodrucker – Desktop-Programm mit Live-Vorschau (deutsche Oberfläche)](docs/images/gui-de.png)
+
+*Der **Reiter „Text“** desselben Programms: links die Bedienelemente, rechts die
+millimetergenaue Live-Vorschau (hier mit der Webseite `www.deadlinedriven.dev` – derselbe
+Inhalt, den auch die QR-Vorlage druckt).*
 
 > Diese Datei ist die **deutsche** Fassung. Die **englische Hauptfassung** steht in
 > [`README.md`](README.md), außerdem gibt es [日本語](README.ja.md) und [中文](README.zh.md).
