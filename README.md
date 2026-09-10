@@ -25,12 +25,6 @@ Website of the project: **[www.deadlinedriven.dev](https://www.deadlinedriven.de
 threshold 190, dithering on, exact millimetre measurements and blue handles for dragging and
 scaling; the preview shows the dithered black/white result before anything is printed.*
 
-![X3 Thermal Printer – desktop application with live preview (English interface)](docs/images/gui-en.png)
-
-*The **text tab** of the same program: controls on the left, millimetre-accurate live preview
-on the right (here with the website `www.deadlinedriven.dev`, the same content the QR code
-preset prints).*
-
 ![X3 Thermal Printer – Barcode / QR tab with the QR code of the website www.deadlinedriven.dev](docs/images/gui-qr-en.png)
 
 *The **barcode / QR tab**: type *QR code*, choose what it should contain (website, Wi-Fi
@@ -277,12 +271,12 @@ controlled with `--zoom` (CLI) or *Size (%)* (GUI).
   *Settings → Design* or with `./scripts/install-desktop.sh`
 * Everything is stored in `~/.config/x3drucker.json`
 
-| Language | Image tab | Text tab | Barcode / QR tab |
-|---|---|---|---|
-| English | [gui-image-en.png](docs/images/gui-image-en.png) | [gui-en.png](docs/images/gui-en.png) | [gui-qr-en.png](docs/images/gui-qr-en.png) |
-| Deutsch | [gui-image-de.png](docs/images/gui-image-de.png) | [gui-de.png](docs/images/gui-de.png) | [gui-qr-de.png](docs/images/gui-qr-de.png) |
-| 日本語 | [gui-image-ja.png](docs/images/gui-image-ja.png) | [gui-ja.png](docs/images/gui-ja.png) | [gui-qr-ja.png](docs/images/gui-qr-ja.png) |
-| 中文 | [gui-image-zh.png](docs/images/gui-image-zh.png) | [gui-zh.png](docs/images/gui-zh.png) | [gui-qr-zh.png](docs/images/gui-qr-zh.png) |
+| Language | Image tab | Barcode / QR tab |
+|---|---|---|
+| English | [gui-image-en.png](docs/images/gui-image-en.png) | [gui-qr-en.png](docs/images/gui-qr-en.png) |
+| Deutsch | [gui-image-de.png](docs/images/gui-image-de.png) | [gui-qr-de.png](docs/images/gui-qr-de.png) |
+| 日本語 | [gui-image-ja.png](docs/images/gui-image-ja.png) | [gui-qr-ja.png](docs/images/gui-qr-ja.png) |
+| 中文 | [gui-image-zh.png](docs/images/gui-image-zh.png) | [gui-qr-zh.png](docs/images/gui-qr-zh.png) |
 
 The GUI and the CUPS queue use the same settings – what you see in the preview is what the
 `X3Thermo` printer sends. See [日本語](README.ja.md) / [中文](README.zh.md) for the

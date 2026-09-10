@@ -25,12 +25,6 @@ Projekt-Webseite: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
 Dithering an, alle Maße in mm und blaue Griffe zum Ziehen und Skalieren – die Vorschau zeigt
 das gerasterte Schwarz/Weiß-Ergebnis schon vor dem Drucken.*
 
-![X3 Thermodrucker – Desktop-Programm mit Live-Vorschau (deutsche Oberfläche)](docs/images/gui-de.png)
-
-*Der **Reiter „Text“** desselben Programms: links die Bedienelemente, rechts die
-millimetergenaue Live-Vorschau (hier mit der Webseite `www.deadlinedriven.dev` – derselbe
-Inhalt, den auch die QR-Vorlage druckt).*
-
 ![X3 Thermodrucker – Reiter Barcode / QR mit dem QR-Code der Webseite www.deadlinedriven.dev](docs/images/gui-qr-de.png)
 
 *Der **Reiter „Barcode / QR“**: Art *QR-Code* wählen und festlegen, was hinein soll
