@@ -18,6 +18,7 @@ brightness/density control, rotation, mirroring, stretching and trimming are inc
 Interface and documentation are available in **English, German, Japanese and Chinese**.
 
 Website of the project: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
+Blog article with pictures, diagrams and a demo video: **[www.deadlinedriven.dev/blog/x3-thermal-printer](https://www.deadlinedriven.dev/blog/x3-thermal-printer)**
 
 ![X3 Thermal Printer – Image tab with threshold, dithering, invert, rotation and stretch for photos](docs/images/gui-image-en.png)
 

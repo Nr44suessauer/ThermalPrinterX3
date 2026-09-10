@@ -15,6 +15,7 @@
 **英语、德语、日语和中文**。
 
 项目网站：**[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
+项目博客文章（图片、图表和演示视频）：**[www.deadlinedriven.dev/blog/x3-thermal-printer](https://www.deadlinedriven.dev/blog/x3-thermal-printer)**
 
 ![X3 热敏打印机 – 图片选项卡：阈值、抖动、反色、旋转与拉伸](docs/images/gui-image-zh.png)
 

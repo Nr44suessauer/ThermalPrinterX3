@@ -10,6 +10,7 @@ project root: [`../README.md`](../README.md) (English, main),
 | I want to … | go to |
 |---|---|
 | install and print right away | [`../INSTALL.md`](../INSTALL.md), [`../README.md`](../README.md) |
+| read the illustrated project article | [www.deadlinedriven.dev/blog/x3-thermal-printer](https://www.deadlinedriven.dev/blog/x3-thermal-printer) |
 | understand how the program is built | this file |
 | see the structure as a picture | [`diagrams/README.md`](diagrams/README.md) |
 | see the user interface | [`images/gui-image-en.png`](images/gui-image-en.png) (image tab), [`images/gui-qr-en.png`](images/gui-qr-en.png) (barcode/QR tab) |

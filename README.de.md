@@ -18,6 +18,7 @@ Helligkeit/Dichte, Drehen, Spiegeln, Strecken und Zuschneiden.
 Oberfläche und Doku gibt es auf **Englisch, Deutsch, Japanisch und Chinesisch**.
 
 Projekt-Webseite: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
+Blogartikel mit Bildern, Diagrammen und Demo-Video: **[www.deadlinedriven.dev/blog/x3-thermal-printer](https://www.deadlinedriven.dev/blog/x3-thermal-printer)**
 
 ![X3 Thermodrucker – Reiter Bild mit Schwelle, Dithering, Drehen und Strecken für Fotos](docs/images/gui-image-de.png)
 

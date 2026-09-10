@@ -16,6 +16,7 @@
 引き伸ばし、余白の切り取りに対応。**英語・ドイツ語・日本語・中国語**の UI とドキュメント。
 
 プロジェクトのウェブサイト: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
+プロジェクトのブログ記事（写真・図・デモ動画）: **[www.deadlinedriven.dev/blog/x3-thermal-printer](https://www.deadlinedriven.dev/blog/x3-thermal-printer)**
 
 ![X3 サーマルプリンター – 画像タブ（しきい値・ディザリング・反転・回転・引き伸ばし）](docs/images/gui-image-ja.png)
 
