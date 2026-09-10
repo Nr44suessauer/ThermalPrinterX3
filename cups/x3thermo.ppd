@@ -1,0 +1,47 @@
+*PPD-Adobe: "4.3"
+*FormatVersion: "4.3"
+*FileVersion: "1.0"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PSVersion: "(3010.000) 0"
+*LanguageLevel: "3"
+*Manufacturer: "DeadlineDriven"
+*ModelName: "X3 Thermo (Bluetooth)"
+*Product: "(X3 Thermo Snap & Tag)"
+*NickName: "X3 Thermo (Snap & Tag Bluetooth) 300dpi"
+*ShortNickName: "X3 Thermo"
+*PCFileName: "x3thermo.ppd"
+*Throughput: "1"
+
+*PageSize X3Label/X3 Label 42,3x250 mm: "<</PageSize[120 708]>>setpagedevice"
+*PageRegion X3Label/X3 Label 42,3x250 mm: "<</PageSize[120 708]>>setpagedevice"
+*DefaultPageSize: X3Label
+*DefaultPageRegion: X3Label
+*ImageableArea X3Label/X3 Label 42,3x250 mm: "0 0 120 708"
+*PaperDimension X3Label/X3 Label 42,3x250 mm: "120 708"
+*HWMargins: "0 0 0 0"
+
+*DefaultResolution: 300dpi
+*Resolution 300dpi/300 dpi: "<</HWResolution[300 300]>>setpagedevice"
+
+*cupsColorSpace: Gray
+*cupsColorOrder: chunky
+*cupsBitsPerColor: 8
+*DefaultColorSpace: Gray
+*ColorSpace Gray/Graustufen: ""
+
+*OpenUI *X3Brightness/Druckdunkelheit (Helligkeit): PickOne
+*OrderDependency: 10 AnySetup *X3Brightness
+*DefaultX3Brightness: 100
+*X3Brightness 70/Hell (70%): ""
+*X3Brightness 100/Normal (100%): ""
+*X3Brightness 130/Dunkel (130%): ""
+*X3Brightness 160/Sehr dunkel (160%): ""
+*CloseUI: *X3Brightness
+
+*cupsFilter2: "application/pdf 0 x3raster"
+*cupsFilter2: "application/postscript 30 x3raster"
+
+*DefaultFont: Courier
+*Font Courier/Courier: Standard "(0.00) Standard Font"
+*Font Courier-Bold/Courier-Bold: Standard "(0.00) Standard Font"

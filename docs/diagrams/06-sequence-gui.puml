@@ -1,0 +1,31 @@
+@startuml 06-sequence-gui
+title Using the user interface (x3gui.py)
+autonumber
+
+actor User as U
+participant "x3gui.py\n(X3App)" as GUI
+participant "render_*()\nin x3print.py" as CORE
+participant "preview canvas" as PV
+participant "printer X3" as X3
+
+U -> GUI : pick a tab (Text / Image / Barcode & QR)
+U -> GUI : type content or choose an image
+GUI -> GUI : queue_preview()
+GUI -> CORE : build_content()\n(Markdown, blocks, image, QR)
+CORE --> GUI : 1-bit content image
+GUI -> GUI : _embed() + geometry
+GUI -> PV : compose_preview_image()\n(paper, ruler, handles)
+PV --> U : preview in mm
+
+group size / position with the mouse
+  U -> PV : drag a corner (diagonal) or an edge (width)
+  PV -> GUI : on_preview_motion()
+  GUI -> GUI : compute scale / offset_mm
+  GUI -> PV : redraw the preview
+end
+
+U -> GUI : "🖨 Print"
+GUI -> GUI : params() + save_config()
+GUI -> X3 : _run_bg(): make_printer(...) + print_image()
+X3 --> GUI : log: "Print job sent ..."
+@enduml

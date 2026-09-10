@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Test-/Vorschau-Ausgaben
+*.png
+!assets/*.png
+*.pdf
+/tmp/
+
+# Mitgelieferte Beispielbilder bleiben immer im Projekt
+!assets/*.jpg
+!assets/*.jpeg
+!assets/*.svg
+!assets/*.webp
+
+# Gerenderte Diagramme der Dokumentation
+!docs/diagrams/*.png
+
+# Editor/System
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Gerenderte Screenshots der Oberfläche
+!docs/images/*.png

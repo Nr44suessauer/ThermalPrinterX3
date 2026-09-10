@@ -1,0 +1,46 @@
+@startuml 02-architecture
+title X3 Thermal Printer - components and interfaces
+skinparam componentStyle uml2
+
+package "PC (Linux)" {
+  component "x3gui.sh" as SH <<start wrapper>>
+  component "x3gui.py" as GUI <<GTK3 user interface>>
+  component "i18n.py" as I18N <<translations>>
+  component "x3print.py" as CORE <<rendering + protocol>>
+  component "assets/" as ASSETS <<icon, example image>>
+
+  package "CUPS integration" {
+    component "cups/x3bridge.py" as BRIDGE <<bridge, no sudo>>
+    component "cups/x3raster.py" as RASTER <<filter, variant B>>
+    component "cups/x3bt.py" as BACKEND <<backend, variant B>>
+  }
+  component "CUPS" as CUPS <<queue X3Thermo>>
+  component "BlueZ / RFCOMM" as BLUEZ <<Bluetooth stack>>
+  database "~/.config/x3drucker.json" as CFG
+}
+
+cloud "thermal paper" {
+  component "X3 print head" as HEAD <<864 dots @ 300 dpi>>
+}
+
+SH --> GUI : starts
+GUI --> CORE : render_*()
+GUI --> I18N : t()
+GUI --> ASSETS : icon, start image
+GUI --> CFG : settings
+CORE --> BLUEZ : RFCOMM channel 1
+BLUEZ --> HEAD : YK/YZW frames
+
+CUPS --> BRIDGE : socket://127.0.0.1:9101
+BRIDGE --> CORE : uses the renderers
+BRIDGE --> BLUEZ
+CUPS --> RASTER : PDF/PS (variant B)
+RASTER --> BACKEND : frames
+BACKEND --> BLUEZ
+
+note right of CORE
+  YK/YZW frame:
+  64 cmd seq len_lo len_hi
+  payload ... 00 00 00 00 9b
+end note
+@enduml

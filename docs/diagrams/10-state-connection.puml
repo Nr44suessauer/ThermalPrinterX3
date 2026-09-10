@@ -1,0 +1,25 @@
+@startuml 10-state-connection
+title Connection lifecycle of the printer
+[*] --> Disconnected
+
+Disconnected --> MacLookup : connect()
+MacLookup --> Disconnected : no MAC found\n("No printer found")
+
+MacLookup --> Connecting : MAC known
+Connecting --> Connected : RFCOMM channel 1 open
+Connecting --> Waiting : OSError
+Waiting --> Connecting : retry (3x, 2 s pause)
+Waiting --> Disconnected : all attempts failed
+
+Connected --> Sending : print_image() / feed()
+Sending --> Connected : frame sent\n(432 byte blocks, no pauses)
+Sending --> Connected : timeout (0.8 s read window)
+Connected --> Disconnected : close() / context manager ends
+
+state Connected {
+  [*] --> Ready
+  Ready --> Initialised : 0x80 token
+  Initialised --> Configured : 0x0a speed, 0x09 density
+  Configured --> Ready : 0x02 feed
+}
+@enduml

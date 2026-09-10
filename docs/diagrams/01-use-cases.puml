@@ -1,0 +1,46 @@
+@startuml 01-use-cases
+title X3 Thermal Printer - use cases
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "User" as User
+actor "Other programs\n(LibreOffice, browser, PDF viewer)" as App
+actor "Snap & Tag printer X3\n(Bluetooth)" as X3
+
+rectangle "X3 Thermal Printer (x3print.py, x3gui.py)" {
+  usecase "Print text / Markdown" as UC1
+  usecase "Print an image" as UC2
+  usecase "Layout: background image\nand text blocks" as UC3
+  usecase "Print barcode (EAN-13) / QR code" as UC4
+  usecase "Preview, size and position\n(adjust with the mouse)" as UC5
+  usecase "Set brightness / density" as UC6
+  usecase "Test page, calibration, feed" as UC7
+  usecase "Read status and firmware" as UC8
+  usecase "Pair the printer (scripts/pair.sh)" as UC9
+  usecase "Choose theme and language" as UC10
+  usecase "Create a desktop shortcut" as UC11
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+App --> UC1
+App --> UC2
+App --> UC3
+App --> UC4
+UC1 --> X3
+UC2 --> X3
+UC3 --> X3
+UC4 --> X3
+UC7 --> X3
+UC8 --> X3
+@enduml

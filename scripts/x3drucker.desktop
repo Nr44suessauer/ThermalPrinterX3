@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=X3 Thermal Printer
+Name[de]=X3 Thermodrucker
+GenericName=Label printer
+GenericName[de]=Etikettendrucker
+Comment=Print text, images, Markdown, barcodes and QR codes on the Snap & Tag Bluetooth printer X3
+Comment[de]=Text, Bilder, Markdown, Barcodes und QR-Codes auf den Snap-&-Tag-Bluetooth-Drucker X3 drucken
+Exec=@EXEC@
+Icon=@ICON@
+Terminal=false
+Categories=Utility;Printing;HardwareSettings;
+Keywords=Thermo;Drucker;Etikett;Label;Barcode;QR;Bluetooth;X3;Snap;
+StartupWMClass=x3gui

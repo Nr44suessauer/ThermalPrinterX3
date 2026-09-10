@@ -1,0 +1,64 @@
+@startuml 09-classes-gui
+title x3gui.py - structure of the user interface (heavily simplified)
+skinparam classAttributeIconSize 0
+
+class X3App {
+  .. state ..
+  - theme : str
+  - ui_zoom : float
+  - image_path : str
+  - blocks : list
+  - _shortcut_created : bool
+  .. construction ..
+  - _build_text_tab()
+  - _build_image_tab()
+  - _build_code_tab()
+  - _build_settings_tab()
+  .. content & preview ..
+  + build_content() : Image
+  + compose_preview_image(canvas, fs)
+  + update_preview()
+  + flush_preview()
+  .. mouse ..
+  + on_preview_press / motion / release
+  .. settings ..
+  + load_config() / save_config()
+  + set_theme(name) / on_theme_changed()
+  + on_lang_changed() / restart_ui()
+  + set_ui_zoom(value) / apply_left_scale(s)
+  + create_desktop_shortcut() / remove_desktop_shortcut()
+  .. printing ..
+  + on_print() / on_status() / on_read_device()
+  + _run_bg(text, job, done)
+}
+
+class THEMES <<constants>> {
+  dark / light / deadline
+}
+class "PV_ACCENTS" as PVA <<constants>>
+class "DEFAULT_*" as DEF <<constants>> {
+  TEXT, QR_KIND, QR_URL,
+  SIZE, THRESHOLD, DITHER,
+  IMAGE, THEME
+}
+
+class "i18n.t()" as I18N <<module>> {
+  English (source)
+  -> de / ja / zh
+}
+class "x3print" as CORE <<module>> {
+  renderers + drivers
+}
+class "_frame_with_grid()" as FG <<helper>>
+class "_hint()" as HINT <<helper>>
+class "_desktop_dir() / _desktop_entry_text()" as SHORTCUT <<helper>>
+
+X3App --> THEMES
+X3App --> PVA
+X3App --> DEF
+X3App --> I18N
+X3App --> CORE
+X3App ..> FG
+X3App ..> HINT
+X3App ..> SHORTCUT
+@enduml

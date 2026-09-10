@@ -1,0 +1,300 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+i18n.py - UI translations for the X3 thermal printer app
+======================================================
+
+English is the source language: the keys of :data:`T` are the English
+texts used in the code.  Every key maps to German, Japanese and Chinese.
+If a translation is missing the English text is shown.
+
+    from i18n import t, set_lang, LANGS
+    set_lang("de")
+    label.set_text(t("Print"))
+"""
+
+import os
+
+LANG = "en"                       # active language code
+
+# Language picker entries: (code, name, flag)
+LANGS = (
+    ("en", "English", "\U0001F1EA\U0001F1FA"),
+    ("de", "Deutsch", "\U0001F1E9\U0001F1EA"),
+    ("ja", "\u65e5\u672c\u8a9e", "\U0001F1EF\U0001F1F5"),
+    ("zh", "\u4e2d\u6587 (\u666e\u901a\u8bdd)", "\U0001F1E8\U0001F1F3"),
+)
+
+_INDEX = {"de": 0, "ja": 1, "zh": 2}
+
+# English -> (German, Japanese, Chinese)
+T = {
+    "Dark": ("Dunkel", "ダーク", "深色"),
+    "Light": ("Hell", "ライト", "浅色"),
+    "X3 Thermal Printer": ("X3 Thermodrucker", "X3 サーマルプリンター", "X3 热敏打印机"),
+    "Colour scheme:": ("Farbschema:", "配色:", "配色方案："),
+    "Dark = dark interface\nLight = light interface for bright surroundings\nDeadlineDriven = colour scheme of the website (black, turquoise #00d2be, orange #ff6a00)": ("Dunkel = dunkle Oberfläche\nHell = helle Oberfläche für helle Umgebungen\nDeadlineDriven = Farbschema der Website (Schwarz, Türkis #00d2be, Orange #ff6a00)", "ダーク = 暗い画面\nライト = 明るい環境向けの明るい画面\nDeadlineDriven = ウェブサイトの配色（黒、ターコイズ #00d2be、オレンジ #ff6a00）", "深色 = 深色界面\n浅色 = 适合明亮环境的浅色界面\nDeadlineDriven = 网站配色（黑色、青绿 #00d2be、橙色 #ff6a00）"),
+    "Width": ("Breite", "幅", "宽度"),
+    "↔ h": ("↔ h", "↔ 左右", "↔ 水平"),
+    "↕ v": ("↕ v", "↕ 上下", "↕ 垂直"),
+    "Text": ("Text", "テキスト", "文本"),
+    "Image": ("Bild", "画像", "图片"),
+    "Settings": ("Einstellungen", "設定", "设置"),
+    "Unknown": ("Unbekannt", "不明", "未知"),
+    "{n} Bluetooth device(s) found ({p} paired).": ("{n} Bluetooth-Gerät(e) gefunden ({p} gekoppelt).", "Bluetooth デバイス {n} 件（ペアリング済み {p} 件）。", "找到 {n} 台蓝牙设备（已配对 {p} 台）。"),
+    "Search failed: {err}": ("Suche fehlgeschlagen: {err}", "検索に失敗しました: {err}", "搜索失败：{err}"),
+    "✗ Error: {err}": ("✗ Fehler: {err}", "✗ エラー: {err}", "✗ 错误：{err}"),
+    "Failed: {err}": ("Fehlgeschlagen: {err}", "失敗しました: {err}", "失败：{err}"),
+    "Preset \"{label}\": {dots} dots, {paper} mm paper.": ("Vorlage \"{label}\": {dots} dots, {paper} mm Papier.", "プリセット \"{label}\": {dots} dots、用紙 {paper} mm。", "预设 \"{label}\"：{dots} dots，纸张 {paper} mm。"),
+    "Language:": ("Sprache:", "言語:", "语言："),
+    "Interface language – applied immediately": ("Sprache der Oberfläche – wird sofort umgestellt", "画面の言語 – すぐに切り替わります", "界面语言 – 立即切换"),
+    "Window: {w} dots at x={x} ({mm} mm)": ("Fenster: {w} dots bei x={x} ({mm} mm)", "ウィンドウ: {w} dots、x={x}（{mm} mm）", "区域：{w} dots，x={x}（{mm} mm）"),
+    "Paper {p} mm · content {w} x {h} mm ({pct} %)": ("Papier {p} mm · Inhalt {w} x {h} mm ({pct} %)", "用紙 {p} mm · 内容 {w} x {h} mm（{pct} %）", "纸张 {p} mm · 内容 {w} x {h} mm（{pct} %）"),
+    "Current: {w} x {h} dots = {mw} x {mh} mm at {p} % · 100 % = fitted to the print window · easy with the mouse: drag the blue corners in the preview diagonally": ("Aktuell: {w} x {h} dots = {mw} x {mh} mm bei {p} % · 100 % = an das Druckfenster angepasst · bequem per Maus: blaue Ecken in der Vorschau diagonal ziehen", "現在: {w} x {h} dots = {mw} x {mh} mm（{p} %）· 100 % = 印刷範囲に合わせる · マウス操作: プレビューの青い角を斜めにドラッグ", "当前：{w} x {h} dots = {mw} x {mh} mm（{p} %）· 100 % = 适应打印区域 · 鼠标操作：拖动预览中的蓝色角点斜向缩放"),
+    "Content {cw} x {ch} mm ({p} %) · paper {paper} mm · window [{l}..{r}] of {dots} · offset {off} mm · density {dens}{note}": ("Inhalt {cw} x {ch} mm ({p} %) · Papier {paper} mm · Fenster [{l}..{r}] von {dots} · Versatz {off} mm · Dichte {dens}{note}", "内容 {cw} x {ch} mm（{p} %）· 用紙 {paper} mm · 範囲 [{l}..{r}] / {dots} · オフセット {off} mm · 濃度 {dens}{note}", "内容 {cw} x {ch} mm（{p} %）· 纸张 {paper} mm · 区域 [{l}..{r}] / {dots} · 偏移 {off} mm · 浓度 {dens}{note}"),
+    "View:": ("Ansicht:", "表示:", "视图："),
+    "Show interface smaller": ("Oberfläche kleiner anzeigen", "画面を小さく表示", "缩小界面显示"),
+    "Show interface larger": ("Oberfläche größer anzeigen", "画面を大きく表示", "放大界面显示"),
+    "Reset to 100 %": ("Auf 100 % zurücksetzen", "100 % に戻す", "重置为 100 %"),
+    "Content": ("Inhalt", "内容", "内容"),
+    "Size (%):": ("Größe (%):", "サイズ (%):", "大小 (%)："),
+    "Scales all content: 100 % = fitted to the print window · smaller = more margin · larger = sticks out (red areas are not printed) · easy with the mouse: drag the blue corners in the preview diagonally": ("Skaliert den gesamten Inhalt: 100 % = an das Druckfenster angepasst · kleiner = mehr Rand · größer = ragt hinaus (rote Bereiche werden nicht gedruckt) · bequem per Maus: blaue Ecken in der Vorschau diagonal ziehen", "内容全体を拡大縮小: 100 % = 印刷範囲に合わせる · 小さい = 余白が増える · 大きい = はみ出す（赤い部分は印刷されません）· マウス操作: プレビューの青い角を斜めにドラッグ", "缩放全部内容：100 % = 适应打印区域 · 更小 = 留白更多 · 更大 = 超出（红色区域不打印）· 鼠标操作：拖动预览中的蓝色角点斜向缩放"),
+    "Fit to window": ("An Fenster anpassen", "ウィンドウに合わせる", "适应窗口"),
+    "Reset size to 100 %": ("Größe auf 100 % zurücksetzen", "サイズを 100 % に戻す", "将大小重置为 100 %"),
+    "Rotation:": ("Drehung:", "回転:", "旋转："),
+    "Rotate content (degrees, positive = counter-clockwise) – no exact quarter turns needed": ("Inhalt drehen (Grad, positiv = gegen den Uhrzeigersinn) – braucht keine exakten Vierteldrehungen", "内容を回転（度、正 = 反時計回り）– 正確な 90 度でなくても可", "旋转内容（度，正值 = 逆时针）– 无需精确的 90 度"),
+    "rotate 90° counter-clockwise": ("um 90° gegen den Uhrzeigersinn", "90° 反時計回り", "逆时针旋转 90°"),
+    "rotate 90° clockwise": ("um 90° im Uhrzeigersinn", "90° 時計回り", "顺时针旋转 90°"),
+    "rotate 180°": ("um 180° drehen", "180° 回転", "旋转 180°"),
+    "reset rotation": ("Drehung zurücksetzen", "回転をリセット", "重置旋转"),
+    "Flip content horizontally": ("Inhalt horizontal spiegeln", "内容を左右反転", "水平镜像内容"),
+    "Flip content vertically": ("Inhalt vertikal spiegeln", "内容を上下反転", "垂直镜像内容"),
+    "Stretch:": ("Strecken:", "伸縮:", "拉伸："),
+    "Stretch content width (<100 compresses)": ("Breite des Inhalts strecken (<100 staucht)", "内容の幅を伸縮（100 未満で圧縮）", "拉伸内容宽度（小于 100 则压缩）"),
+    "Stretch content height (<100 compresses)": ("Höhe des Inhalts strecken (<100 staucht)", "内容の高さを伸縮（100 未満で圧縮）", "拉伸内容高度（小于 100 则压缩）"),
+    "%  Height": ("%  Höhe", "%  高さ", "%  高度"),
+    "Trim margins": ("Ränder weg", "余白を削除", "去除空白边"),
+    "Cuts off empty (white) margins of the content": ("Schneidet leere (weiße) Ränder des Inhalts ab", "内容の空の（白い）余白を切り取ります", "裁掉内容中空白（白色）的边缘"),
+    "Paper & position": ("Papier & Position", "用紙と位置", "纸张与位置"),
+    "Paper width:": ("Papierbreite:", "用紙幅:", "纸张宽度："),
+    "Margin:": ("Rand:", "余白:", "边距："),
+    "Side offset:": ("Seitl. Versatz:", "横方向オフセット:", "横向偏移："),
+    "mm (right +)": ("mm (rechts +)", "mm（右が +）", "mm（右为 +）"),
+    "Raster width:": ("Rasterbreite:", "ラスター幅:", "光栅宽度："),
+    "Set side offset to 0": ("Seitlichen Versatz auf 0 setzen", "横オフセットを 0 に", "将横向偏移设为 0"),
+    "Fine tuning (dots) – only if needed": ("Feintuning (dots) – nur bei Bedarf", "微調整 (dots) – 必要なときだけ", "微调 (dots) – 仅在需要时"),
+    "Paper centre:": ("Papier-Mitte:", "用紙中央:", "纸张中心："),
+    "Print window left:": ("Druckfenster links:", "印刷範囲の左:", "打印区域左侧："),
+    "Width:": ("Breite:", "幅:", "宽度："),
+    "Centre": ("Zentrieren", "中央に合わせる", "居中"),
+    "Print image": ("Druckbild", "印刷イメージ", "打印图像"),
+    "Brightness:": ("Helligkeit:", "明るさ:", "亮度："),
+    "100 % · density 0x0c": ("100 % · Dichte 0x0c", "100 % · 濃度 0x0c", "100 % · 浓度 0x0c"),
+    "Density:": ("Dichte:", "濃度:", "浓度："),
+    "Set print density (command 0x09) manually": ("Druckdichte (Befehl 0x09) manuell setzen", "印刷濃度（コマンド 0x09）を手動設定", "手动设置打印浓度（命令 0x09）"),
+    "Print speed (hex)": ("Druckgeschwindigkeit (Hex)", "印刷速度（16 進数）", "打印速度（十六进制）"),
+    "Feed steps after printing": ("Vorschub-Schritte nach dem Druck", "印刷後の送り量", "打印后的走纸步数"),
+    "Print mode:": ("Druckmodus:", "印刷モード:", "打印模式："),
+    "Smooth (frame by frame)": ("Flüssig (Frame für Frame)", "スムーズ（フレーム単位）", "平滑（逐帧发送）"),
+    "Turbo (large 16 KB blocks)": ("Turbo (große 16-KB-Blöcke)", "ターボ（16 KB ブロック）", "极速（16 KB 分块）"),
+    "Both modes send without pauses - the printer's buffer sets the pace and the motor runs through. Smooth = one raster frame (432 bytes) per write, Turbo = 16 KB blocks (fewer, larger writes).": ("Beide Modi senden ohne Pausen – der Puffer des Druckers gibt das Tempo vor und der Motor läuft durch. Flüssig = ein Raster-Frame (432 Byte) pro Schreibvorgang, Turbo = 16-KB-Blöcke (weniger, größere Schreibvorgänge).", "どちらのモードも途切れずに送信します。速度はプリンターのバッファが決め、モーターは止まりません。スムーズ = 書き込み 1 回につきラスターフレーム 1 つ（432 バイト）、ターボ = 16 KB ブロック（回数が少なく大きい）。", "两种模式都连续发送——由打印机缓冲区决定速度，电机不会停顿。平滑 = 每次写入一个光栅帧（432 字节），极速 = 16 KB 分块（写入更少、块更大）。"),
+    "(error: {err})": ("(Fehler: {err})", "（エラー: {err}）", "（错误：{err}）"),
+    "Could not load the theme: {err}": ("Design konnte nicht geladen werden: {err}", "テーマを読み込めませんでした: {err}", "无法加载主题：{err}"),
+    "Error while rendering: {err}": ("Fehler beim Erzeugen: {err}", "生成中にエラー: {err}", "生成时出错：{err}"),
+    "Connected to {mac} ({proto})": ("Verbunden mit {mac} ({proto})", "{mac} に接続しました（{proto}）", "已连接到 {mac}（{proto}）"),
+    "Invalid hex value: {err}": ("Ungültiger Hex-Wert: {err}", "無効な 16 進値: {err}", "无效的十六进制值：{err}"),
+    "Desktop shortcut:": ("Desktop-Verknüpfung:", "デスクトップショートカット:", "桌面快捷方式："),
+    "Create": ("Erstellen", "作成", "创建"),
+    "Remove": ("Entfernen", "削除", "删除"),
+    "Put a launcher for this program on the desktop (and into the application menu)": ("Legt eine Verknüpfung zu diesem Programm auf den Schreibtisch (und ins Anwendungsmenü)", "このプログラムのランチャーをデスクトップ（およびアプリメニュー）に作成します", "在桌面（以及应用程序菜单）中创建此程序的启动器"),
+    "Delete the desktop shortcut (the menu entry stays)": ("Löscht die Verknüpfung auf dem Schreibtisch (der Eintrag im Anwendungsmenü bleibt)", "デスクトップのショートカットを削除します（アプリメニューの項目は残ります）", "删除桌面快捷方式（应用程序菜单中的条目保留）"),
+    "Desktop shortcut created: {path}": ("Desktop-Verknüpfung erstellt: {path}", "デスクトップショートカットを作成しました: {path}", "已创建桌面快捷方式：{path}"),
+    "Desktop shortcut created.": ("Desktop-Verknüpfung erstellt.", "デスクトップショートカットを作成しました。", "已创建桌面快捷方式。"),
+    "Desktop shortcut removed.": ("Desktop-Verknüpfung entfernt.", "デスクトップショートカットを削除しました。", "已删除桌面快捷方式。"),
+    "No desktop folder found - shortcut not created.": ("Kein Schreibtisch-Ordner gefunden – Verknüpfung nicht erstellt.", "デスクトップフォルダが見つかりません – ショートカットは作成されませんでした。", "未找到桌面文件夹 — 未创建快捷方式。"),
+    "Could not create the desktop shortcut: {err}": ("Desktop-Verknüpfung konnte nicht erstellt werden: {err}", "デスクトップショートカットを作成できませんでした: {err}", "无法创建桌面快捷方式：{err}"),
+    "Could not remove the desktop shortcut: {err}": ("Desktop-Verknüpfung konnte nicht entfernt werden: {err}", "デスクトップショートカットを削除できませんでした: {err}", "无法删除桌面快捷方式：{err}"),
+    "Printed": ("Gedruckt", "印刷しました", "已打印"),
+    "🖨  Print": ("🖨  Drucken", "🖨  印刷", "🖨  打印"),
+    "Check status": ("Status prüfen", "ステータス確認", "检查状态"),
+    "Feed only": ("Nur Vorschub", "送りのみ", "仅走纸"),
+    "Test page": ("Testseite", "テストページ", "测试页"),
+    "Calibration": ("Kalibrierung", "キャリブレーション", "校准"),
+    "Ready.": ("Bereit.", "準備完了。", "就绪。"),
+    "Ready. Settings are saved automatically.": ("Bereit. Einstellungen werden automatisch gespeichert.", "準備完了。設定は自動保存されます。", "就绪。设置会自动保存。"),
+    "white = printable · hatched = no paper · red = outside (not printed) · blue = paper centre": ("weiß = bedruckbar · schraffiert = kein Papier · rot = ragt hinaus (wird nicht gedruckt) · blau = Papier-Mitte", "白 = 印刷可 · 斜線 = 紙なし · 赤 = はみ出し（印刷されません）· 青 = 用紙中央", "白色 = 可打印 · 斜纹 = 无纸张 · 红色 = 超出（不打印）· 蓝色 = 纸张中心"),
+    "Drag left = move content · drag blue corners = size (diagonal) · drag blue edges = width · drag right = move paper": ("Links-Ziehen = Inhalt verschieben · an den blauen Ecken ziehen = Größe (diagonal) · an den blauen Kanten ziehen = Breite · Rechts-Ziehen = Papier verschieben", "左ドラッグ = 内容を移動 · 青い角 = サイズ（斜め）· 青い辺 = 幅 · 右ドラッグ = 用紙を移動", "左键拖动 = 移动内容 · 拖动蓝色角 = 大小（斜向）· 拖动蓝色边 = 宽度 · 右键拖动 = 移动纸张"),
+    "no paper": ("kein Papier", "紙なし", "无纸张"),
+    "Apply Markdown formatting when printing (# heading, **bold**, *italic*, - list, 1. list, > quote, --- rule, ![image](path)) – off = plain text": ("Markdown-Formatierung beim Drucken anwenden (# Überschrift, **fett**, *kursiv*, - Liste, 1. Liste, > Zitat, --- Linie, ![Bild](pfad)) – aus = reiner Text", "印刷時に Markdown 書式を適用（# 見出し、**太字**、*斜体*、- リスト、1. リスト、> 引用、--- 区切り線、![画像](パス)）– オフ = プレーン文", "打印时应用 Markdown 格式（# 标题、**粗体**、*斜体*、- 列表、1. 列表、> 引用、--- 分隔线、![图片](路径)）– 关闭 = 纯文本"),
+    "Insert image …": ("Bild einfügen …", "画像を挿入 …", "插入图片 …"),
+    "Insert an image at the cursor (e.g. as a template with text above/below); the path is inserted as ![image](path)": ("Bild an der Schreibmarke einfügen (z. B. als Meme-Vorlage mit Text darüber/darunter); Pfad wird als ![Bild](pfad) eingetragen", "カーソル位置に画像を挿入（例: 上下にテキストを置くテンプレート）。パスは ![画像](パス) として挿入されます", "在光标处插入图片（例如作为带上下文字的模板）；路径会写成 ![图片](路径)"),
+    "Short Markdown reference": ("Kurzübersicht der Markdown-Schreibweise", "Markdown の書き方の簡単な説明", "Markdown 写法速查"),
+    "Enter Markdown – the preview on the right shows the print immediately. Use “Insert image …” to add an image.": ("Markdown eingeben – die Vorschau rechts zeigt sofort das Druckbild. Mit „Bild einfügen …“ kommt ein Bild in den Text.", "Markdown を入力 – 右のプレビューにすぐ印刷イメージが表示されます。「画像を挿入 …」で画像を追加できます。", "输入 Markdown – 右侧预览立即显示打印效果。用“插入图片 …”把图片加入文本。"),
+    "Font size:": ("Schriftgröße:", "文字サイズ:", "字体大小："),
+    "Alignment:": ("Ausrichtung:", "配置:", "对齐："),
+    "Stroke width:": ("Strichstärke:", "線の太さ:", "笔画粗细："),
+    "Line spacing:": ("Zeilenabstand:", "行間:", "行距："),
+    "Markdown": ("Markdown", "Markdown", "Markdown"),
+    "Format help": ("Format-Hilfe", "書式ヘルプ", "格式帮助"),
+    "Background image (layout)": ("Hintergrundbild (Layout)", "背景画像（レイアウト）", "背景图片（版式）"),
+    "Background image …": ("Hintergrundbild …", "背景画像 …", "背景图片 …"),
+    "Image as background – printed with the settings from the “Image” tab (threshold, dithering, invert) and the brightness from “Print image”. As soon as a background image or a text block is set, this layout is printed – otherwise the text above.": ("Bild als Hintergrund – gedruckt mit den Werten aus dem Tab „Bild“ (Schwelle, Dithering, Invertieren) und der Helligkeit aus „Druckbild“. Sobald ein Hintergrundbild oder ein Textblock gesetzt ist, wird dieses Layout gedruckt – sonst der Text oben.", "背景として画像 – 「画像」タブの設定（しきい値、ディザ、反転）と「印刷イメージ」の明るさで印刷されます。背景画像かテキストブロックを設定するとこのレイアウトが印刷され、それ以外は上のテキストを印刷します。", "图片作为背景 – 使用“图片”标签页的设置（阈值、抖动、反色）和“打印图像”的亮度打印。只要设置了背景图片或文本块，就打印此版式；否则打印上方文本。"),
+    "no image": ("kein Bild", "画像なし", "无图片"),
+    "Remove background (print text blocks only)": ("Hintergrund entfernen (nur Textblöcke drucken)", "背景を削除（テキストブロックのみ印刷）", "移除背景（仅打印文本块）"),
+    "Text blocks (layout)": ("Textblöcke (Layout)", "テキストブロック（レイアウト）", "文本块（版式）"),
+    "＋ Add text block": ("＋ Textblock hinzufügen", "＋ テキストブロックを追加", "＋ 添加文本块"),
+    "Create another text block (top, middle or bottom – several blocks are possible)": ("Weiteren Textblock anlegen (oben, Mitte oder unten – mehrere Blöcke sind möglich)", "テキストブロックを追加（上・中央・下 – 複数可）", "新建文本块（上、中、下 – 可多个）"),
+    "Text for this block": ("Text für diesen Block", "このブロックのテキスト", "此文本块的文本"),
+    "Text of this block (one line; several blocks for several positions in the image)": ("Text dieses Blocks (eine Zeile; mehrere Blöcke für mehrere Stellen im Bild)", "このブロックのテキスト（1 行。位置ごとに複数ブロック可）", "此块的文本（一行；多个块用于图片中的多个位置）"),
+    "Remove this text block": ("Diesen Textblock entfernen", "このテキストブロックを削除", "移除此文本块"),
+    "Position: top, middle or bottom – several blocks per position are stacked": ("Position: oben, Mitte oder unten – mehrere Blöcke je Position werden gestapelt", "位置: 上・中央・下 – 同じ位置に複数のブロックを積み重ね可能", "位置：上、中、下 – 同一位置的多个块会堆叠"),
+    "Outline = white text with a black border (meme look, for photos) · Bar = white text on a black bar (most readable) · Black = normal black text": ("Kontur = weiße Schrift mit schwarzer Umrandung (Meme-Look, für Fotos) · Balken = weiße Schrift auf schwarzem Balken (am lesbarsten) · Schwarz = normale schwarze Schrift", "縁取り = 白文字に黒い縁（ミーム風、写真向け）· 帯 = 黒帯に白文字（最も読みやすい）· 黒 = 通常の黒文字", "描边 = 白字黑边（表情包风格，适合照片）· 色带 = 黑底白字（最清晰）· 黑色 = 普通黑字"),
+    "Font size in dots – reduced automatically if needed so the text fits": ("Schriftgröße in dots – wird bei Bedarf automatisch verkleinert, damit der Text passt", "文字サイズ（dots）– 収まらない場合は自動で縮小されます", "以点(dots)为单位的字号 – 必要时自动缩小以容纳文本"),
+    "Outline": ("Kontur", "縁取り", "描边"),
+    "Bar": ("Balken", "帯", "色带"),
+    "Black": ("Schwarz", "黒", "黑色"),
+    "Top": ("Oben", "上", "上"),
+    "Middle": ("Mitte", "中央", "中"),
+    "Bottom": ("Unten", "下", "下"),
+    "Left": ("Links", "左", "左"),
+    "Right": ("Rechts", "右", "右"),
+    "Choose image file …": ("Bilddatei wählen …", "画像ファイルを選択 …", "选择图片文件 …"),
+    "Load image (PNG/JPG/BMP/GIF/WebP/SVG) – sets rotation to 0°, threshold to 190 and dithering on, and refreshes the preview immediately": ("Bild laden (PNG/JPG/BMP/GIF/WebP/SVG) – stellt Drehung auf 0°, Schwelle auf 190 und Dithering an und zeigt die Vorschau sofort", "画像を読み込み（PNG/JPG/BMP/GIF/WebP/SVG）– 回転を 0°、しきい値を 190、ディザをオンにしてプレビューを即更新", "载入图片（PNG/JPG/BMP/GIF/WebP/SVG）– 旋转设为 0°、阈值 190、开启抖动，并立即刷新预览"),
+    "no file": ("keine Datei", "ファイルなし", "无文件"),
+    "Software version": ("Version der Software", "ソフトのバージョン", "软件版本"),
+    "Threshold:": ("Schwelle:", "しきい値:", "阈值："),
+    "Dithering": ("Dithering", "ディザ", "抖动"),
+    "Invert": ("Invertieren", "反転", "反色"),
+    "Type:": ("Typ:", "種類:", "类型："),
+    "EAN-13 (barcode)": ("EAN-13 (Strichcode)", "EAN-13（バーコード）", "EAN-13（条形码）"),
+    "QR code": ("QR-Code", "QR コード", "QR 码"),
+    "Size:": ("Größe:", "サイズ:", "大小："),
+    "Content (12/13 digits):": ("Inhalt (12/13 Ziffern):", "内容（12/13 桁）:", "内容（12/13 位数字）："),
+    "QR type:": ("QR-Art:", "QR の種類:", "QR 类型："),
+    "Free text": ("Freier Text", "自由テキスト", "自由文本"),
+    "Website (URL)": ("Webseite (URL)", "ウェブサイト (URL)", "网址（URL）"),
+    "Wi-Fi access": ("WLAN-Zugang", "Wi-Fi アクセス", "Wi-Fi 连接"),
+    "Contact (vCard)": ("Kontakt (vCard)", "連絡先 (vCard)", "联系人（vCard）"),
+    "E-mail": ("E-Mail", "メール", "电子邮件"),
+    "Phone": ("Telefon", "電話", "电话"),
+    "SMS": ("SMS", "SMS", "短信"),
+    "Location (geo)": ("Standort (geo)", "位置情報 (geo)", "位置（geo）"),
+    "Type of QR code: website, Wi-Fi access, contact, e-mail, phone, SMS or location": ("Art des QR-Codes: Webseite, WLAN-Zugang, Kontakt, E-Mail, Telefon, SMS oder Standort", "QR コードの種類: ウェブサイト、Wi-Fi、連絡先、メール、電話、SMS、位置情報", "QR 码类型：网址、Wi-Fi 连接、联系人、电子邮件、电话、短信或位置"),
+    "Error correction:": ("Fehlerkorrektur:", "誤り訂正:", "纠错级别："),
+    "More error correction = more robust against dirt, scratches and fading (H recommended for thermal paper), but a denser pattern": ("Mehr Fehlerkorrektur = robuster gegen Schmutz, Kratzer und Verblassen (H empfohlen für Thermopapier), dafür dichteres Muster", "誤り訂正が多いほど汚れ・傷・退色に強い（サーマル紙には H 推奨）が、パターンが密になります", "纠错越高越耐脏、耐刮、耐褪色（热敏纸建议 H），但图案更密"),
+    "What the QR code contains (exactly this text)": ("Im QR-Code steckt (genau dieser Text)", "QR コードの内容（このテキストそのまま）", "QR 码内容（正是此文本）"),
+    "Barcode / QR": ("Barcode / QR", "バーコード / QR", "条形码 / QR"),
+    "Text / content:": ("Text / Inhalt:", "テキスト / 内容:", "文本 / 内容："),
+    "Web address:": ("Webadresse:", "ウェブアドレス:", "网址："),
+    "e.g. www.deadlinedriven.dev": ("z. B. www.deadlinedriven.dev", "例: www.deadlinedriven.dev", "例如 www.deadlinedriven.dev"),
+    "Tip: “https://” is added automatically – the code opens the page directly in the browser.": ("Tipp: „https://“ wird automatisch ergänzt – der Code öffnet die Seite direkt im Browser.", "ヒント: 「https://」は自動で付加されます – コードを読むとブラウザで直接開きます。", "提示：“https://”会自动补全 – 扫码后直接在浏览器中打开。"),
+    "Network name (SSID):": ("Netzwerkname (SSID):", "ネットワーク名 (SSID):", "网络名称（SSID）："),
+    "Password:": ("Passwort:", "パスワード:", "密码："),
+    "show": ("anzeigen", "表示", "显示"),
+    "Encryption:": ("Verschlüsselung:", "暗号化:", "加密："),
+    "open (no password)": ("offen (ohne Passwort)", "オープン（パスワードなし）", "开放（无密码）"),
+    "SSID hidden": ("SSID versteckt", "SSID 非表示", "隐藏 SSID"),
+    "Network name (SSID). Scan with the phone camera – the Wi-Fi is set up automatically.": ("Netzwerkname (SSID). Mit der Handy-Kamera scannen – das WLAN wird automatisch eingerichtet.", "ネットワーク名 (SSID)。スマホのカメラで読み取ると Wi-Fi が自動設定されます。", "网络名称（SSID）。用手机相机扫描 – 会自动配置 Wi-Fi。"),
+    "Wi-Fi password. Special characters (; , : \" \\) are escaped automatically.": ("WLAN-Passwort. Sonderzeichen (; , : \" \\) werden automatisch korrekt maskiert.", "Wi-Fi パスワード。特殊文字（; , : \" \\）は自動で正しくエスケープされます。", "Wi-Fi 密码。特殊字符（; , : \" \\）会自动正确转义。"),
+    "Name:": ("Name:", "名前:", "姓名："),
+    "Phone:": ("Telefon:", "電話:", "电话："),
+    "E-mail:": ("E-Mail:", "メール:", "电子邮件："),
+    "Company:": ("Firma:", "会社:", "公司："),
+    "Website:": ("Webseite:", "ウェブサイト:", "网站："),
+    "To:": ("An:", "宛先:", "收件人："),
+    "Subject:": ("Betreff:", "件名:", "主题："),
+    "Message:": ("Nachricht:", "メッセージ:", "消息："),
+    "Phone number:": ("Telefonnummer:", "電話番号:", "电话号码："),
+    "Scanning shows the number to call.": ("Beim Scannen erscheint die Nummer zum Anrufen.", "読み取ると発信用の番号が表示されます。", "扫描后显示可拨打的号码。"),
+    "Number:": ("Nummer:", "番号:", "号码："),
+    "Latitude:": ("Breitengrad:", "緯度:", "纬度："),
+    "Longitude:": ("Längengrad:", "経度:", "经度："),
+    "Tip: read the coordinates e.g. from Google Maps (right-click the place).": ("Tipp: Koordinaten z. B. aus Google Maps ablesen (Rechtsklick auf den Ort).", "ヒント: 座標は Google マップなどで確認できます（場所を右クリック）。", "提示：可在 Google 地图中读取坐标（右键点击地点）。"),
+    "Design": ("Design", "デザイン", "设计"),
+    "Printer": ("Drucker", "プリンター", "打印机"),
+    "Device:": ("Gerät:", "デバイス:", "设备："),
+    "automatic (search for X3)": ("automatisch (X3 suchen)", "自動（X3 を検索）", "自动（搜索 X3）"),
+    "manual (MAC below)": ("manuell (MAC unten)", "手動（下の MAC）", "手动（下方 MAC）"),
+    "Search": ("Suchen", "検索", "搜索"),
+    "Test": ("Testen", "テスト", "测试"),
+    "Select Bluetooth printer – “Search” lists nearby devices (takes a few seconds)": ("Bluetooth-Drucker auswählen – „Suchen“ listet Geräte in der Umgebung auf (dauert ein paar Sekunden)", "Bluetooth プリンターを選択 – 「検索」で周辺のデバイスを一覧表示（数秒かかります）", "选择蓝牙打印机 – “搜索”会列出附近设备（需要几秒钟）"),
+    "Search nearby Bluetooth devices": ("Bluetooth-Geräte in der Umgebung suchen", "周辺の Bluetooth デバイスを検索", "搜索附近的蓝牙设备"),
+    "Test the connection to the selected printer": ("Verbindung zum gewählten Drucker testen", "選択したプリンターへの接続をテスト", "测试与所选打印机的连接"),
+    "Printer's Bluetooth address": ("Bluetooth-Adresse des Druckers", "プリンターの Bluetooth アドレス", "打印机的蓝牙地址"),
+    "Protocol:": ("Protokoll:", "プロトコル:", "协议："),
+    "ESC/POS (standard thermal)": ("ESC/POS (Standard-Thermo)", "ESC/POS（標準サーマル）", "ESC/POS（标准热敏）"),
+    "X3 = Snap & Tag printer (also ORGBRO)\nESC/POS = common thermal printers (58/80 mm)": ("X3 = Snap-&-Tag-Drucker (auch ORGBRO)\nESC/POS = übliche Thermodrucker (58/80 mm)", "X3 = Snap & Tag プリンター（ORGBRO も同様）\nESC/POS = 一般的なサーマルプリンター（58/80 mm）", "X3 = Snap & Tag 打印机（也支持 ORGBRO）\nESC/POS = 常见热敏打印机（58/80 mm）"),
+    "Model:": ("Modell:", "モデル:", "型号："),
+    "Preset: sets protocol, paper width and raster width accordingly": ("Vorlage: setzt Protokoll, Papierbreite und Rasterbreite passend", "プリセット: プロトコル・用紙幅・ラスター幅を自動設定", "预设：自动设置协议、纸张宽度和光栅宽度"),
+    "Read firmware + status": ("Firmware + Status lesen", "ファームウェア + ステータスを読む", "读取固件 + 状态"),
+    "Raw command (hex):": ("Rohbefehl (Hex):", "生コマンド（16 進数）:", "原始命令（十六进制）："),
+    "Send": ("Senden", "送信", "发送"),
+    "(raw command for X3 only)": ("(Rohbefehl nur für X3)", "（生コマンドは X3 のみ）", "（原始命令仅适用于 X3）"),
+    " - extends beyond the paper (red, not printed)": (" - ragt ueber das Papier hinaus (rot, wird nicht gedruckt)", " - 用紙からはみ出しています（赤、印刷されません）", " - 超出纸张（红色，不打印）"),
+    " - paper limited by raster edge": (" - Papier am Rasterrand begrenzt", " - 用紙がラスター端で制限されています", " - 纸张受光栅边缘限制"),
+    "(still empty)": ("(noch leer)", "（まだ空です）", "（仍为空）"),
+    "Choose image": ("Bild wählen", "画像を選択", "选择图片"),
+    "Images (including SVG)": ("Bilder (auch SVG)", "画像（SVG 含む）", "图片（包括 SVG）"),
+    "SVG vector graphics": ("SVG-Vektorgrafiken", "SVG ベクター画像", "SVG 矢量图"),
+    "Insert image": ("Bild einfügen", "画像を挿入", "插入图片"),
+    " · extends beyond the paper (red)": (" · ragt über das Papier hinaus (rot)", " · 用紙からはみ出しています（赤）", " · 超出纸张（红色）"),
+    "A job is already running.": ("Es läuft bereits ein Auftrag.", "すでに印刷中です。", "已有任务正在运行。"),
+    "Nothing to print (check your input).": ("Kein Inhalt zum Drucken (Eingabe prüfen).", "印刷する内容がありません（入力を確認してください）。", "没有可打印的内容（请检查输入）。"),
+    "Sending print job …": ("Druckauftrag wird gesendet …", "印刷ジョブを送信中 …", "正在发送打印任务 …"),
+    "Checking connection …": ("Prüfe Verbindung …", "接続を確認中 …", "正在检查连接 …"),
+    "Connection OK": ("Verbindung OK", "接続 OK", "连接正常"),
+    "Sending test page …": ("Testseite wird gesendet …", "テストページを送信中 …", "正在发送测试页 …"),
+    "Test page printed": ("Testseite gedruckt", "テストページを印刷しました", "测试页已打印"),
+    "Sending calibration …": ("Kalibrierung wird gesendet …", "キャリブレーションを送信中 …", "正在发送校准 …"),
+    "Calibration printed": ("Kalibrierung gedruckt", "キャリブレーションを印刷しました", "校准页已打印"),
+    "Feeding …": ("Vorschub …", "送り中 …", "正在走纸 …"),
+    "Paper advanced": ("Papier vorgeschoben", "用紙を送りました", "已走纸"),
+    "Searching Bluetooth devices … (may take ~10 s)": ("Suche Bluetooth-Geräte … (kann ~10 s dauern)", "Bluetooth デバイスを検索中 …（約 10 秒）", "正在搜索蓝牙设备 …（约 10 秒）"),
+    "  (paired)": ("  (gekoppelt)", "  （ペアリング済み）", "  （已配对）"),
+    "X3 = Snap & Tag printer (YK protocol)": ("X3 = Snap-&-Tag-Drucker (YK-Protokoll)", "X3 = Snap & Tag プリンター（YK プロトコル）", "X3 = Snap & Tag 打印机（YK 协议）"),
+    "ESC/POS = standard thermal printers (58/80 mm); density, speed and print mode apply to X3 only": ("ESC/POS = Standard-Thermodrucker (58/80 mm); Dichte, Speed und Druckmodus gelten nur beim X3", "ESC/POS = 一般的なサーマルプリンター（58/80 mm）。濃度・速度・印刷モードは X3 のみ有効です", "ESC/POS = 标准热敏打印机（58/80 mm）；浓度、速度和打印模式仅适用于 X3"),
+    "Status: ": ("Status: ", "ステータス: ", "状态："),
+    "Markdown formatting": ("Markdown-Formatierung", "Markdown 書式", "Markdown 格式"),
+    "Meme background image": ("Hintergrundbild für Meme", "ミームの背景画像", "Meme 背景图片"),
+    "no response": ("keine Antwort", "応答なし", "无响应"),
+    "UPPERCASE": ("GROSSBUCHSTABEN", "大文字", "大写"),
+    "Bold": ("Fett", "太字", "粗体"),
+    "Checking printer …": ("Prüfe Drucker …", "プリンターを確認中 …", "正在检查打印机 …"),
+    "Printer checked": ("Drucker geprüft", "プリンター確認済み", "打印机已检查"),
+    "Reading firmware/status …": ("Lese Firmware/Status …", "ファームウェア/ステータスを読み取り中 …", "正在读取固件/状态 …"),
+    "Device answer received": ("Geräteantwort empfangen", "デバイス応答を受信しました", "已收到设备响应"),
+    "Sending raw command …": ("Sende Rohbefehl …", "生コマンドを送信中 …", "正在发送原始命令 …"),
+    "Raw command sent": ("Rohbefehl gesendet", "生コマンドを送信しました", "原始命令已发送"),
+    "X3 printer": ("X3 Drucker", "X3 プリンター", "X3 打印机"),
+}
+
+def set_lang(code: str) -> None:
+    """Select the UI language ("en", "de", "ja" or "zh")."""
+    global LANG
+    LANG = code if code in ([c for c, _n, _f in LANGS]) else "en"
+
+
+def get_lang() -> str:
+    """Currently selected language code."""
+    return LANG
+
+
+def system_lang(default: str = "en") -> str:
+    """Guess the language from the environment (LANG/LC_ALL)."""
+    raw = (os.environ.get("LC_ALL") or os.environ.get("LC_MESSAGES")
+           or os.environ.get("LANG") or "").lower()
+    for code, _name, _flag in LANGS:
+        if raw.startswith(code):
+            return code
+    return default
+
+
+def t(text: str) -> str:
+    """Translate `text` (English) into the active language."""
+    if LANG == "en":
+        return text
+    entry = T.get(text)
+    if not entry:
+        return text
+    value = entry[_INDEX.get(LANG, 0)]
+    return value or text

@@ -1,0 +1,33 @@
+@startuml 07-activity-rendering
+title Preparing the print image (pipeline)
+start
+:determine the content
+(text / Markdown / layout / image / barcode / QR);
+if (image file?) then (yes)
+  :load the image
+(PNG, JPG, SVG via rsvg/cairosvg/Inkscape);
+  :autocontrast + scale to the content width;
+else (no)
+  :draw with Pillow
+(font, bars, lines, barcodes);
+endif
+:flatten transparency onto white;
+:flip (h/v), rotate, trim, stretch;
+if (brightness != 100 %) then (yes)
+  :darken / brighten the image
+(gain before the threshold);
+endif
+if (dithering?) then (yes)
+  :Floyd-Steinberg dithering;
+else (no)
+  :hard black/white threshold;
+endif
+if (invert?) then (yes)
+  :invert the bits;
+endif
+:embed into the 864 dot raster
+(x = left edge, rest stays white);
+:pack into 432 byte frames
+(4 rows per frame);
+stop
+@enduml

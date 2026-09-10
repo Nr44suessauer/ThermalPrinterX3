@@ -1,0 +1,31 @@
+@startuml 05-sequence-cups
+title Printing through CUPS (bridge x3bridge, no sudo)
+autonumber
+
+actor User as U
+participant "program\n(LibreOffice ...)" as APP
+participant "CUPS\nqueue X3Thermo" as CUPS
+participant "x3bridge.py\n127.0.0.1:9101" as BR
+participant "x3print.py\nrenderers" as CORE
+participant "printer X3" as X3
+
+U -> APP : Print...
+APP -> CUPS : job (PDF / PS / image / text)
+CUPS -> BR : socket://127.0.0.1:9101
+BR -> BR : load_gui_settings()\n(geometry, brightness, mode)
+
+alt PDF or PostScript
+  BR -> BR : Ghostscript 300 dpi -> PNG pages
+else image file
+  BR -> CORE : load_raster_image()
+else plain text
+  BR -> CORE : render_text()
+end
+
+BR -> CORE : render_image_file(..., brightness)
+CORE --> BR : 1-bit image
+BR -> BR : embed_and_print()\n(864 dot raster, x = left)
+BR -> X3 : speed / density / raster / feed
+X3 --> BR : printed
+BR -> CUPS : job finished
+@enduml

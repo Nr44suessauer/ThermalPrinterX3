@@ -1,0 +1,31 @@
+@startuml 11-activity-installation
+title Installation and first start
+start
+:scripts/install.sh;
+:check dependencies
+(Python, GTK3, Pillow, BlueZ,\noptional qrcode/ghostscript);
+if (packages missing?) then (yes)
+  :print the apt/dnf command
+(the script never uses sudo);
+  stop
+endif
+:make the scripts executable;
+:run the self-test
+(tests/test_smoke.py);
+:write the menu entry
+(scripts/install-desktop.sh);
+:create the desktop shortcut;
+if (printer paired?) then (no)
+  :scripts/pair.sh
+(PIN is usually 0000);
+endif
+if (CUPS queue wanted?) then (yes)
+  :scripts/install-cups-user.sh
+(queue X3Thermo + user service);
+endif
+:start ./x3gui.sh;
+:on its first start the GUI also creates
+the desktop shortcut
+(config key: shortcut_created);
+stop
+@enduml

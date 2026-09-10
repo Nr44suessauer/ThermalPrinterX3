@@ -1,0 +1,21 @@
+@startuml 13-hardware-facts
+title Values measured on the device (hardware data)
+@startsalt
+{
+  {#
+    <b>Property</b> | <b>Value</b>
+    Print head | 864 dots @ 300 dpi (108 bytes per row)
+    Raster frame | 432 bytes = 4 rows
+    Printable window | about dot 300 .. 845
+    Content window (default) | 500 dots wide, x = 320 (about 42 mm)
+    Paper width (default) | 53 mm (printable about 45 mm)
+    Distance between marks | 54 dots = 4.6 mm
+    Bluetooth | SPP / RFCOMM, channel 1, PIN is usually 0000
+    Speed | 0x55 (taken from the capture of the original app)
+    Density | 0x0c at 100 % brightness (4 bit field: 0x02 .. 0x0f)
+    Feed | 200 steps after printing (24 steps are visible)
+    Print mode | "app" = 432-byte blocks, "fast" = 16 KB; no pauses
+  }
+}
+@endsalt
+@enduml

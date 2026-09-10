@@ -1,0 +1,34 @@
+@startuml 03-deployment
+title X3 Thermal Printer - deployment
+skinparam nodesep 45
+skinparam ranksep 45
+
+node "Workstation PC" as PC {
+  node "User account" as HOME {
+    artifact "project folder\n(x3print.py, x3gui.py, i18n.py,\ncups/, assets/, scripts/, docs/)" as PROJ
+    artifact "~/.config/x3drucker.json" as CFG
+    artifact "~/.local/share/applications/\nx3drucker.desktop" as ENTRY
+    artifact "~/Desktop/x3drucker.desktop" as LINK
+    artifact "~/.config/systemd/user/\nx3bridge.service" as SVC
+  }
+  node "system services" as SYS {
+    component "BlueZ" as BLUEZ
+    component "CUPS" as CUPS
+  }
+}
+
+node "thermal printer X3" as X3 {
+  artifact "print head 864 dots @ 300 dpi" as HEAD
+  artifact "Bluetooth SPP (channel 1)" as SPP
+}
+
+PROJ --> CFG : stores
+PROJ --> ENTRY : scripts/install-desktop.sh or the GUI
+ENTRY --> LINK : copy
+PROJ --> SVC : scripts/install-cups-user.sh
+SVC --> SPP : RFCOMM
+CUPS --> SVC : socket://127.0.0.1:9101
+PROJ --> BLUEZ : AF_BLUETOOTH socket
+BLUEZ --> SPP
+SPP --> HEAD
+@enduml

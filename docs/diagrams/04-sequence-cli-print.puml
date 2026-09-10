@@ -1,0 +1,40 @@
+@startuml 04-sequence-cli-print
+title Printing from the command line (x3print.py)
+autonumber
+
+actor User as U
+participant "x3print.py" as CLI
+participant "render pipeline" as R
+participant "X3Printer" as P
+participant "printer X3" as X3
+
+U -> CLI : x3print.py text "Hello"
+CLI -> R : render_text(text, width, size, ...)
+R -> R : threshold / dithering / rotation
+R --> CLI : 1-bit image (500 dots wide)
+CLI -> CLI : _embed() into the 864 dot raster
+CLI -> P : X3Printer(mac=...)
+CLI -> P : connect()
+
+alt MAC unknown
+  P -> P : detect_mac() via bluetoothctl
+end
+P -> X3 : 0x80 token / init
+P -> X3 : 0x0a speed (0x55)
+P -> X3 : 0x09 density (0x0c)
+loop every 432 bytes = 4 rows
+  P -> X3 : 0x00 raster frame
+end
+P -> X3 : 0x02 feed (200 steps)
+note over P, X3
+  The whole job goes out in one continuous stream,
+  without pauses between the blocks: a gap would let the
+  printer's buffer run empty and stop the motor in the
+  middle of a page.  The RFCOMM flow control blocks the
+  writes while the printer works off its buffer.
+end note
+P -> X3 : 0x10 status query (queued behind the job)
+X3 --> P : reply = everything was read, closing is safe
+P -> P : close()
+CLI --> U : "Print job sent ..."
+@enduml

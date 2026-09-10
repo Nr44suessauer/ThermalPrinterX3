@@ -1,0 +1,25 @@
+@startuml 12-user-interface
+title User interface (wireframe: controls on the left, preview on the right)
+@startsalt
+{
+  <b>View:</b>  -   100 %   +    100 %
+  --
+  {/ <b>Text</b> | Image | Barcode / QR | Settings }
+  --
+  { [ 🖨 Print ] | [ Check status ] | [ Test page ] | [ Calibration ] | [ Feed only ] }
+  --
+  {#
+     <b>Content (text / layout)</b>          | <b>Preview</b>
+     Size: (35)    Align: (center)           | Paper 53 mm
+     [x] Bold      Thicken: (0)              | Content 49.4 x 3.8 mm (100 %)
+     Line spacing: (3)                       | (print image - can be dragged
+     Background: [ Choose image ... ] [x]    |  and resized with the mouse)
+     Text blocks: [ top ] Text ...  [x]      |
+     --
+     <b>Paper + position</b>                 | <b>Print image</b>
+     Paper (mm): 53      Margin: 1.5         | Brightness: 100 %
+     Raster width: 864 dots                  | Mode: app
+  }
+}
+@endsalt
+@enduml

@@ -1,0 +1,82 @@
+@startuml 08-classes-core
+title x3print.py - drivers and renderers
+skinparam classAttributeIconSize 0
+hide empty members
+
+class X3Printer {
+  + mac : str
+  + width : int = 864
+  + speed : int
+  + density : int
+  + default_feed : int
+  + mode : "app" | "fast"
+  --
+  + connect(retries = 3)
+  + close()
+  + firmware() : bytes
+  + status() : bytes
+  + feed(steps = None)
+  + print_image(bw_image)
+  - _next_frame(cmd, payload) : bytes
+  - _send_frame(cmd, payload)
+  - _send_stream(data, chunk)
+  - _drain(nbytes)
+}
+
+note top of X3Printer
+  mode "app"  = one raster frame (432 B) per block,
+  mode "fast" = 16 KB blocks.
+  Both send without pauses; the RFCOMM flow
+  control sets the pace, so the motor keeps
+  running (write blocks while the printer is
+  busy).  _drain() waits for the printer's reply
+  to a status query put behind the job before
+  the socket is closed.
+end note
+
+class EscPosPrinter {
+  + width : int = 384 | 576
+  + points : int
+  --
+  + connect(retries = 3)
+  + print_image(bw_image)
+  + feed(steps = None)
+  + status() : bytes
+}
+
+class "make_printer()" as MK <<function>> {
+  protocol "x3" -> X3Printer
+  protocol "escpos" -> EscPosPrinter
+}
+
+class "detect_mac()" as DM <<function>> {
+  looks for "X3" in bluetoothctl devices
+}
+
+package "renderers (Pillow)" {
+  class "render_text()" as RT
+  class "render_markdown()" as RM
+  class "render_blocks()" as RB
+  class "render_image_file()" as RI
+  class "render_ean13()" as RE
+  class "render_qrcode()" as RQ
+  class "load_raster_image()" as LI
+  class "qr_payload()" as QP
+  class "_load_font()" as LF
+}
+
+MK ..> X3Printer
+MK ..> EscPosPrinter
+X3Printer ..> DM
+RT ..> LF
+RM ..> RT
+RM ..> LI
+RB ..> LI
+RI ..> LI
+RI ..> LF
+RE ..> RT
+note "Every renderer returns a PIL image in mode 1\n(1 bit, 0 = black dots) in the content width." as N1
+RT .. N1
+RB .. N1
+RI .. N1
+@enduml
