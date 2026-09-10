@@ -12,7 +12,7 @@ project root: [`../README.md`](../README.md) (English, main),
 | install and print right away | [`../INSTALL.md`](../INSTALL.md), [`../README.md`](../README.md) |
 | understand how the program is built | this file |
 | see the structure as a picture | [`diagrams/README.md`](diagrams/README.md) |
-| see the user interface | [`images/gui-image-en.png`](images/gui-image-en.png) (image tab), [`images/gui-en.png`](images/gui-en.png) (text tab) |
+| see the user interface | [`images/gui-image-en.png`](images/gui-image-en.png) (image tab), [`images/gui-en.png`](images/gui-en.png) (text tab), [`images/gui-qr-en.png`](images/gui-qr-en.png) (barcode/QR tab) |
 | change or verify something | `python3 ../tests/test_smoke.py` |
 
 ---

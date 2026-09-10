@@ -31,6 +31,13 @@ das gerasterte Schwarz/Weiß-Ergebnis schon vor dem Drucken.*
 millimetergenaue Live-Vorschau (hier mit der Webseite `www.deadlinedriven.dev` – derselbe
 Inhalt, den auch die QR-Vorlage druckt).*
 
+![X3 Thermodrucker – Reiter Barcode / QR mit dem QR-Code der Webseite www.deadlinedriven.dev](docs/images/gui-qr-de.png)
+
+*Der **Reiter „Barcode / QR“**: Art *QR-Code* wählen und festlegen, was hinein soll
+(Webseite, WLAN-Zugang, Kontakt/vCard, E-Mail, Telefon, SMS, Standort oder freier Text).
+Das Feld unter dem Formular zeigt genau, was im Code steckt – hier
+`https://www.deadlinedriven.dev`, die Projekt-Webseite.*
+
 > Diese Datei ist die **deutsche** Fassung. Die **englische Hauptfassung** steht in
 > [`README.md`](README.md), außerdem gibt es [日本語](README.ja.md) und [中文](README.zh.md).
 
@@ -726,8 +733,9 @@ docs/
   README.md           Technische Doku (englisch): Aufbau, Protokoll, API
   diagrams/           PlantUML-Diagramme: README.md (Index), *.puml (Quellen),
                       *.svg / *.png (Bilder), build.sh (neu rendern)
-  images/             Screenshots der Oberfläche (gui-en/de/ja/zh.png
-                      = Reiter Text, gui-image-*.png = Reiter Bild)
+  images/             Screenshots der Oberfläche in vier Sprachen:
+                      gui-image-*.png (Reiter Bild), gui-*.png (Reiter Text),
+                      gui-qr-*.png (Reiter Barcode / QR)
 tests/test_smoke.py   Selbsttests ohne Drucker (Rendering, Frames, ESC/POS)
 INSTALL.md            Installationsanleitung (Schritt für Schritt)
 requirements.txt      Python-Abhängigkeiten (Pillow; qrcode optional)
