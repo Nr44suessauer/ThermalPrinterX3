@@ -74,3 +74,9 @@ fi
 echo "==> Done: \"X3 Thermal Printer\" is now in the application menu."
 echo "    Start from a terminal as well:  $ROOT/x3gui.sh"
 echo "    Remove:                         $SCRIPTS/install-desktop.sh --uninstall"
+if [[ -f "$SCRIPTS/msg.sh" ]]; then                 # localized hint (en/de/ja/zh)
+    # shellcheck source=msg.sh
+    source "$SCRIPTS/msg.sh"
+    echo ""
+    echo "    $(x3_lang_hint)"
+fi

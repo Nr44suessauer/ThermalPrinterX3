@@ -99,6 +99,10 @@ def _desktop_entry_text():
             text = f.read()
     except OSError:                                          # template missing
         text = ("[Desktop Entry]\nType=Application\nName=X3 Thermal Printer\n"
+                "Name[de]=X3 Thermodrucker\nName[ja]=X3 サーマルプリンター\n"
+                "Name[zh]=X3 热敏打印机\n"
+                "GenericName=Label printer\nGenericName[de]=Etikettendrucker\n"
+                "GenericName[ja]=ラベルプリンター\nGenericName[zh]=标签打印机\n"
                 "Exec=@EXEC@\nIcon=@ICON@\nTerminal=false\n"
                 "Categories=Utility;Printing;HardwareSettings;\n"
                 "StartupWMClass=x3gui\n")

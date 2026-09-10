@@ -23,6 +23,10 @@ SCRIPTS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$SCRIPTS")"
 PRINTER="X3Thermo"
 
+# localized messages (English, German, Japanese, Chinese) - see scripts/msg.sh
+# shellcheck source=msg.sh
+source "$SCRIPTS/msg.sh"
+
 DO_CHECKS=1
 CHECK_ONLY=0
 DO_DESKTOP=1
@@ -37,14 +41,14 @@ UNINSTALL=0
 bold()  { printf '\033[1m%s\033[0m\n' "$*"; }
 ok()    { printf '  \033[32mOK\033[0m   %s\n' "$*"; }
 warn()  { printf '  \033[33mWARN\033[0m %s\n' "$*"; }
-fail()  { printf '  \033[31mFEHLT\033[0m %s\n' "$*"; }
+fail()  { printf '  \033[31m%s\033[0m %s\n' "$(x3_missing_label)" "$*"; }
 step()  { printf '\n\033[1m==> %s\033[0m\n' "$*"; }
 
 ask() {                       # ask "question" [default=J]
     local q="$1" def="${2:-j}" ans
     if [[ "$ASSUME_YES" == 1 ]]; then echo "   $q -> yes (--yes)"; return 0; fi
     [[ -t 0 ]] || { echo "   $q -> no (no terminal, use --yes)"; return 1; }
-    read -r -p "   $q [j/N] " ans || ans=""
+    read -r -p "   $q [$(x3_yesno_labels)] " ans || ans=""
     [[ "${ans,,}" == "j" || "${ans,,}" == "y" || -z "$ans" && "$def" == "j" ]]
 }
 
@@ -218,16 +222,8 @@ elif [[ "$DO_CUPS" == 1 ]]; then
 fi
 
 # ------------------------------------------------------------------ result
-step "Ready"
-cat <<EOF
-  Start the desktop app:      $ROOT/x3gui.sh
-  Print from the command line: python3 $ROOT/x3print.py text 'Hello'
-  Check the printer:          python3 $ROOT/x3print.py status
-  Remove the installation:    $SCRIPTS/install.sh --uninstall
-
-  The desktop shortcut is on your desktop; the app also creates one itself
-  on its first start (buttons "Create"/"Remove" in Settings -> Design).
-
-  More details: INSTALL.md (installation) and README.md (usage)
-EOF
-[[ "$CHECK_ONLY" == 1 ]] && echo "  Note: this was a check run only - nothing was installed."
+step "$(x3_ready_title)"
+x3_summary "$ROOT" "$SCRIPTS"
+if [[ "$CHECK_ONLY" == 1 ]]; then
+    echo "  $(x3_check_note)"
+fi

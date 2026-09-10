@@ -36,22 +36,24 @@ below the form – it shows exactly what ends up in the code, here
 
 ## Table of contents
 
-* [What is this?](#what-is-this)
-* [Features](#features)
-* [Supported printers and models](#supported-printers-and-models)
-* [Requirements](#requirements)
-* [Installation](#installation)
-* [Quick start](#quick-start)
-* [Command line reference](#command-line-reference)
-* [QR codes and barcodes](#qr-codes-and-barcodes)
-* [Brightness, density and print quality](#brightness-density-and-print-quality)
-* [Desktop application](#desktop-application)
-* [Use it as a system printer (CUPS)](#use-it-as-a-system-printer-cups)
-* [Troubleshooting](#troubleshooting)
-* [How the driver works](#how-the-driver-works)
-* [Project structure](#project-structure)
-* [Keywords / Suchbegriffe / キーワード / 关键词](#keywords--suchbegriffe--キーワード--关键词)
-* [License](#license)
+- [X3 Thermal Printer on Linux – Snap \& Tag / ORGBRO X3 driver (CLI, CUPS, desktop GUI)](#x3-thermal-printer-on-linux--snap--tag--orgbro-x3-driver-cli-cups-desktop-gui)
+  - [Table of contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Features](#features)
+  - [Supported printers and models](#supported-printers-and-models)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Quick start](#quick-start)
+  - [Command line reference](#command-line-reference)
+  - [QR codes and barcodes](#qr-codes-and-barcodes)
+  - [Brightness, density and print quality](#brightness-density-and-print-quality)
+  - [Desktop application](#desktop-application)
+  - [Use it as a system printer (CUPS)](#use-it-as-a-system-printer-cups)
+  - [Troubleshooting](#troubleshooting)
+  - [How the driver works](#how-the-driver-works)
+  - [Project structure](#project-structure)
+  - [Keywords / Suchbegriffe / キーワード / 关键词](#keywords--suchbegriffe--キーワード--关键词)
+  - [License](#license)
 
 ---
 
@@ -263,6 +265,9 @@ controlled with `--zoom` (CLI) or *Size (%)* (GUI).
 
 * Tabs **Text / Image / Barcode &amp; QR / Settings**, print button plus *Check status*,
   *Test page*, *Calibration*, *Feed only*
+* **Starts in the language of your system** – English, German, Japanese or Chinese;
+  the installer and the menu entry are localized as well. Change it any time in
+  *Settings → Design → Language*
 * Live preview: printable area highlighted, hatched = no paper, red = sticks out,
   millimetre ruler, blue centre line, all measurements in dots and mm
 * Drag to position, drag corners to scale proportionally, drag edges to change the width
@@ -313,6 +318,8 @@ sudo bash scripts/install-cups.sh --uninstall
 | Problem | Solution |
 |---|---|
 | `No printer found …` | switch the printer on, run `./scripts/pair.sh` (PIN usually `0000`), make the device *trusted* |
+| **Printer does not connect any more** (`timed out`) | the Bluetooth session is stale – the X3 accepts only **one** client, so an old session blocks the channel even though the PC shows `Connected: yes`. The driver drops the link itself and retries (first print then takes a few seconds longer). Manually: `bluetoothctl disconnect AA:BB:CC:DD:EE:FF`, or switch the printer off and on |
+| `Device or resource busy` | the printer is still working on the previous job – wait a moment, the driver retries by itself |
 | **Printer stops in the middle of a page** | the print head was faster than the data stream. Both modes send **without pauses** (the printer's buffer sets the pace) – if it still stops: check the Bluetooth link (printer nearby, no second host connected), do **not** set `--delay`, try `--mode fast` (larger blocks). Very dark/large images can also be slowed by head heat – lower the density |
 | Print is doubled/chopped | wrong raster width – check `--dots` (432 vs 864) |
 | Content is not centred / cut off | adjust `--width`/`--left` (use `calibrate` to find the window) |
