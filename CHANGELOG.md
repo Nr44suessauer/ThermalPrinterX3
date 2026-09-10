@@ -38,6 +38,12 @@ mehrsprachig (English/Deutsch/日本語/中文, Standard folgt der Systemsprache
   **Desktop-Verknüpfung** (wird beim ersten Start automatisch angelegt und
   ist in *Einstellungen → Design* jederzeit erstell- und entfernbar),
   kompaktes Layout mit automatischer Spaltenbreite.
+- **Verbindung** – Der X3 nimmt nur **einen** Client an: Bleibt eine alte
+  Bluetooth-Sitzung hängen (PC meldet `Connected: yes`, RFCOMM läuft aber in
+  einen Timeout), trennt der Treiber die Verbindung automatisch
+  (`drop_bluetooth_link()`) und verbindet sich neu; bei „device busy" wartet er
+  nur und versucht erneut. Vorher musste man `bluetoothctl disconnect` von Hand
+  ausführen.
 - **Schriften** – Text mit japanischen/chinesischen Schriftzeichen wird
   automatisch mit einer CJK-Schrift (Noto Sans CJK, Droid Sans Fallback …)
   gesetzt, auch die Maßangaben der Vorschau; ohne diese Erkennung wären die

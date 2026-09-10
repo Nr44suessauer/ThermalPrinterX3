@@ -678,6 +678,14 @@ App (PDF/PS/Text/Bild)
 
 - **„Keine Verbindung"** → Drucker einschalten; einmalig `./scripts/pair.sh`
   (PIN `0000`), Gerät muss *trusted* sein.
+- **Drucker verbindet sich nicht mehr** (`timed out`) → Die Bluetooth-Sitzung ist
+  verwaist: Der X3 erlaubt nur **einen** Client, deshalb blockiert eine alte
+  Sitzung den Kanal, obwohl der PC `Connected: yes` meldet. Der Treiber trennt
+  die Verbindung selbst und versucht es erneut (der erste Druck dauert dann ein
+  paar Sekunden länger). Von Hand: `bluetoothctl disconnect <MAC>` oder den
+  Drucker aus- und wieder einschalten.
+- **`Device or resource busy`** → Der Drucker arbeitet noch am vorherigen
+  Auftrag – kurz warten, der Treiber versucht es selbst erneut.
 - **CUPS: Auftrag hängt/fehlgeschlagen** →
   `grep -i x3 /var/log/cups/error_log | tail` ansehen. Evtl. blockiert
   AppArmor den Python-Filter – dann CUPS-Profile prüfen

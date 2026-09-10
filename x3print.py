@@ -41,6 +41,7 @@ DEFAULT_MODE = "app"
 MODE_PARAMS = {"app": (432, 0.0), "fast": (16384, 0.0)}
 DRAIN_RATE = 15000                          # fallback: bytes/s while the printer reads
 DRAIN_MIN, DRAIN_MAX = 0.5, 8.0             # limits for the wait before close()
+DROP_STALE_LINK = True                      # drop a stale Bluetooth session before retrying
 
 # supported protocols / printer templates
 PROTOCOLS = ("x3", "escpos")
@@ -305,6 +306,24 @@ def detect_mac() -> str:
     return DEFAULT_MAC
 
 
+def drop_bluetooth_link(mac: str, timeout: float = 15.0) -> bool:
+    """Drop a (stale) Bluetooth connection to `mac`.
+
+    The X3 accepts only one client.  If a previous session was not closed
+    cleanly, the PC still shows "Connected: yes" while the RFCOMM channel
+    cannot be opened any more ("connection timed out").  Disconnecting at the
+    Bluetooth level clears that state; the next connect works again.
+    """
+    if not mac:
+        return False
+    try:
+        out = subprocess.run(["bluetoothctl", "disconnect", mac],
+                             capture_output=True, text=True, timeout=timeout)
+    except Exception:                                        # noqa: BLE001
+        return False
+    return "disconnect" in (out.stdout or "").lower()
+
+
 class X3Printer:
     "Connection to a YK/YZW thermal printer over Bluetooth SPP."
 
@@ -354,12 +373,25 @@ class X3Printer:
                         pass
                     self.sock = None
                 if i < retries - 1:
-                    time.sleep(2.0)
+                    # A timeout almost always means a stale Bluetooth session:
+                    # the PC still shows "Connected: yes", but the printer's
+                    # single RFCOMM channel is blocked.  Drop the link once and
+                    # try again.  "Device or resource busy" only means that the
+                    # printer is still busy with the previous job - then we just
+                    # wait (dropping the link could cut off that job).
+                    dropped = False
+                    if i == 0 and DROP_STALE_LINK and isinstance(e, TimeoutError):
+                        dropped = drop_bluetooth_link(self.mac)
+                    if not dropped:
+                        time.sleep(2.0)
         raise ConnectionError(
             f"No connection to {self.mac} (channel {RFCOMM_CHANNEL}): {last_err}\n"
             "Hint: switch the printer on and pair it first if needed:\n"
             "  bluetoothctl pair <MAC>   (PIN is usually 0000)\n"
-            "  bluetoothctl trust <MAC>"
+            "  bluetoothctl trust <MAC>\n"
+            "If it worked before, the Bluetooth link may be stale - the driver\n"
+            "drops it automatically on the next attempt, manually it is:\n"
+            f"  bluetoothctl disconnect {self.mac}"
         )
 
     def close(self):
