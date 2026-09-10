@@ -24,6 +24,15 @@ Website of the project: **[www.deadlinedriven.dev](https://www.deadlinedriven.de
 *The desktop application: controls on the left, millimetre-accurate live preview on the right
 (here with the website `www.deadlinedriven.dev`, the same content the QR code preset prints).*
 
+**Image tab** – photos, logos and vector graphics with threshold, dithering, invert, rotation,
+stretching and trimming; the preview shows the dithered black/white result before printing:
+
+![X3 Thermal Printer – Image tab with threshold, dithering, invert, rotation and stretch for photos](docs/images/gui-image-en.png)
+
+*The image tab with the example picture that ships with the project (`assets/sample.jpg`):
+threshold 190 % and dithering on, exact millimetre measurements, blue handles for dragging
+and scaling – all values are stored and reused for the next print.*
+
 ---
 
 ## Table of contents
@@ -261,12 +270,12 @@ controlled with `--zoom` (CLI) or *Size (%)* (GUI).
   *Settings → Design* or with `./scripts/install-desktop.sh`
 * Everything is stored in `~/.config/x3drucker.json`
 
-| Language | Screenshot |
-|---|---|
-| English | [docs/images/gui-en.png](docs/images/gui-en.png) |
-| Deutsch | [docs/images/gui-de.png](docs/images/gui-de.png) |
-| 日本語 | [docs/images/gui-ja.png](docs/images/gui-ja.png) |
-| 中文 | [docs/images/gui-zh.png](docs/images/gui-zh.png) |
+| Language | Text tab | Image tab |
+|---|---|---|
+| English | [gui-en.png](docs/images/gui-en.png) | [gui-image-en.png](docs/images/gui-image-en.png) |
+| Deutsch | [gui-de.png](docs/images/gui-de.png) | [gui-image-de.png](docs/images/gui-image-de.png) |
+| 日本語 | [gui-ja.png](docs/images/gui-ja.png) | [gui-image-ja.png](docs/images/gui-image-ja.png) |
+| 中文 | [gui-zh.png](docs/images/gui-zh.png) | [gui-image-zh.png](docs/images/gui-image-zh.png) |
 
 The GUI and the CUPS queue use the same settings – what you see in the preview is what the
 `X3Thermo` printer sends. See [日本語](README.ja.md) / [中文](README.zh.md) for the

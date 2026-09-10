@@ -25,6 +25,16 @@ Projekt-Webseite: **[www.deadlinedriven.dev](https://www.deadlinedriven.dev)**
 Live-Vorschau (hier mit der Webseite `www.deadlinedriven.dev` – derselbe Inhalt,
 den auch die QR-Vorlage druckt).*
 
+**Reiter „Bild“** – Fotos, Logos und Vektorgrafiken mit Schwelle, Dithering, Invertieren,
+Drehen, Strecken und Zuschneiden; die Vorschau zeigt das gerasterte Schwarz/Weiß-Ergebnis
+schon vor dem Drucken:
+
+![X3 Thermodrucker – Reiter Bild mit Schwelle, Dithering, Drehen und Strecken für Fotos](docs/images/gui-image-de.png)
+
+*Der Reiter „Bild“ mit dem mitgelieferten Beispielbild (`assets/sample.jpg`): Schwelle 190 %,
+Dithering an, alle Maße in mm, blaue Griffe zum Ziehen und Skalieren – alle Werte werden
+gespeichert und beim nächsten Druck wieder verwendet.*
+
 > Diese Datei ist die **deutsche** Fassung. Die **englische Hauptfassung** steht in
 > [`README.md`](README.md), außerdem gibt es [日本語](README.ja.md) und [中文](README.zh.md).
 
@@ -716,7 +726,8 @@ docs/
   README.md           Technische Doku (englisch): Aufbau, Protokoll, API
   diagrams/           PlantUML-Diagramme: README.md (Index), *.puml (Quellen),
                       *.svg / *.png (Bilder), build.sh (neu rendern)
-  images/             Screenshots der Oberfläche (gui-en/de/ja/zh.png)
+  images/             Screenshots der Oberfläche (gui-en/de/ja/zh.png
+                      = Reiter Text, gui-image-*.png = Reiter Bild)
 tests/test_smoke.py   Selbsttests ohne Drucker (Rendering, Frames, ESC/POS)
 INSTALL.md            Installationsanleitung (Schritt für Schritt)
 requirements.txt      Python-Abhängigkeiten (Pillow; qrcode optional)
