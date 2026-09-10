@@ -77,6 +77,8 @@ This repository is a **free, open source Linux driver and printing tool** for th
 **Printing**
 
 * Text (any size, alignment, bold, stroke width, line spacing), also from `stdin`
+* **Japanese, Chinese and Korean text** – a CJK font (Noto Sans CJK, Droid Sans Fallback …)
+  is detected automatically, so CJK content prints as real characters instead of boxes
 * **Markdown**: headings, bold, italic, strikethrough, code, lists, quotes, rules and images
   inside the text (`![image](path)`, optionally `{50%}` or `{300}` = width in dots)
 * **Layout mode**: background image plus any number of text blocks (top/middle/bottom,

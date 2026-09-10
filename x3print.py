@@ -225,6 +225,56 @@ _FONT_FILES = {
 }
 _FONT_CACHE: dict = {}
 
+# CJK fonts (Japanese/Chinese/Korean) - used automatically for text that contains
+# such characters, because DejaVu has no glyphs for them (they would print as boxes).
+FONT_CJK_CANDIDATES = [
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+    "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/arphic/uming.ttc",
+]
+FONT_CJK_BOLD = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+_CJK_FONT_CACHE: dict = {}
+
+
+def has_cjk(text: str) -> bool:
+    "True if the text contains CJK (Japanese/Chinese/Korean) characters."
+    return any("\u2e80" <= ch <= "\u9fff" or "\uf900" <= ch <= "\ufaff"
+               or "\uff00" <= ch <= "\uffef" for ch in text or "")
+
+
+def _load_cjk_font(size: int, bold: bool = False):
+    "Load a CJK capable font (cached) - None if none is installed."
+    from PIL import ImageFont
+
+    key = (int(size), bool(bold))
+    if key in _CJK_FONT_CACHE:
+        return _CJK_FONT_CACHE[key]
+    cands = list(FONT_CJK_CANDIDATES)
+    if bold and os.path.exists(FONT_CJK_BOLD):
+        cands.insert(0, FONT_CJK_BOLD)
+    font = None
+    for path in cands:
+        if os.path.exists(path):
+            try:
+                font = ImageFont.truetype(path, int(size))
+                break
+            except Exception:                            # noqa: BLE001
+                font = None
+    _CJK_FONT_CACHE[key] = font
+    return font
+
+
+def load_font_for_text(text: str, size: int, bold: bool = False,
+                       italic: bool = False, mono: bool = False):
+    """Font for `text`: a CJK font when needed, otherwise the standard font."""
+    if has_cjk(text):
+        font = _load_cjk_font(size, bold=bold)
+        if font is not None:
+            return font
+    return _load_font(size, bold=bold, italic=italic, mono=mono)
+
 
 # --------------------------------------------------------------------------
 # Frame- & Verbindungs-Ebene
@@ -532,7 +582,7 @@ def render_text(text: str, width: int, font_size: int = 30, align: str = "left",
     "Build a 1-bit image (0 = black) from text, in the content width.\n\n    `thicken` = stroke width in px around the letters (0 = none).  On 300 dpi\n    heads 0 is usually enough; try 1 for pale printouts.\n    "
     from PIL import Image, ImageDraw
 
-    font = _load_font(font_size, bold)
+    font = load_font_for_text(text, font_size, bold=bold)
     lines = _wrap(text, font, width)
     asc, desc = font.getmetrics()
     line_h = asc + desc
@@ -894,13 +944,13 @@ def render_meme(bg_path: str, top_text: str = "", bottom_text: str = "",
         if upper:
             txt = txt.upper()
         for size in range(int(font_size), 8, -2):
-            f = _load_font(size, bold=True)
+            f = load_font_for_text(txt, size, bold=True)
             lines = _wrap(txt, f, limit)
             if all(_text_width(ln, f) <= limit for ln in lines):
                 break
         else:
             size = 9
-            f = _load_font(size, bold=True)
+            f = load_font_for_text(txt, size, bold=True)
             lines = _wrap(txt, f, limit)
         asc, desc = f.getmetrics()
         lh = asc + desc
@@ -931,11 +981,11 @@ def _layout_text(txt: str, size: int, width: int, margin: int, upper: bool):
         txt = txt.upper()
     limit = max(20, width - 2 * margin)
     for size in range(int(size), 8, -2):
-        f = _load_font(size, bold=True)
+        f = load_font_for_text(txt, size, bold=True)
         lines = _wrap(txt, f, limit)
         if all(_text_width(ln, f) <= limit for ln in lines):
             return f, lines
-    f = _load_font(9, bold=True)
+    f = load_font_for_text(txt, 9, bold=True)
     return f, _wrap(txt, f, limit)
 
 

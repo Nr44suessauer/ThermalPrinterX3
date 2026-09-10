@@ -226,6 +226,31 @@ def test_shipped_image():
           not im.info.get("exif") and not im.info.get("software"), im.info)
 
 
+def test_cjk_text():
+    """Japanese/Chinese text needs a CJK font - otherwise it prints as boxes."""
+    check("has_cjk finds Japanese", x3print.has_cjk("こんにちは"))
+    check("has_cjk finds Chinese", x3print.has_cjk("你好，世界"))
+    check("has_cjk ignores Latin", not x3print.has_cjk("Grüße aus München"))
+
+    font_de = x3print.load_font_for_text("Hallo Welt", 30)
+    check("Latin text uses the standard font",
+          getattr(font_de, "path", "").endswith("DejaVuSans.ttf"),
+          getattr(font_de, "path", "?"))
+
+    cjk = x3print._load_cjk_font(30)
+    if cjk is None:
+        check("CJK font installed", True, "none on this system (text would be boxes)")
+    else:
+        check("CJK font installed", True, getattr(cjk, "path", "?"))
+        font_jp = x3print.load_font_for_text("こんにちは", 30)
+        path = getattr(font_jp, "path", "")
+        check("Japanese text uses the CJK font", path == getattr(cjk, "path", ""), path)
+        img = x3print.render_text("日本語のテスト", 500, 30)
+        check("Japanese text renders", img.size[0] == 500 and img.size[1] > 10, img.size)
+        dark = sum(1 for p in img.convert("L").getdata() if p < 128)
+        check("Japanese glyphs are drawn", dark > 100, f"{dark} schwarze Punkte")
+
+
 def test_cli_version():
     out = subprocess.run([sys.executable, os.path.join(ROOT, "x3print.py"),
                           "--version"], capture_output=True, text=True)
@@ -246,7 +271,7 @@ def main():
              test_render_text,
              test_render_markdown,
              test_render_blocks, test_barcodes, test_x3_frames, test_escpos,
-             test_missing_mac_message, test_cups_bridge,
+             test_missing_mac_message, test_cups_bridge, test_cjk_text,
              test_cli_version, test_gui_version)
     for fn in tests:
         print(f"\n{fn.__name__}:")

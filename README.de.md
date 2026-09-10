@@ -343,6 +343,10 @@ komplette Spalte passt also **ohne Scrollen** ins Fenster.
 - **Inhalte:** Text / **Markdown** / **Layout mit Textblöcken** (Größe,
   Ausrichtung, Fett, Strichstärke, Zeilenabstand), Bild (Schwelle,
   Dithering, Invertieren), EAN-13, QR-Code – alles im Tab *Text*.
+- **Japanischer/chinesischer Text:** Schriftzeichen wie 日本語 oder 你好 werden
+  automatisch mit einer CJK-Schrift (Noto Sans CJK, Droid Sans Fallback …)
+  gesetzt – vorher wären sie als Kästchen gedruckt worden. Die Erkennung läuft
+  beim Drucken und in der Vorschau (Maßangaben).
 - **Markdown-Editor:** Der Text wird direkt als Markdown geschrieben und
   **live** gerendert – `# ## ###` Überschriften (automatisch größer),
   `**fett**`, `*kursiv*`, `~~durchgestrichen~~`, `` `Code` `` (Monospace),

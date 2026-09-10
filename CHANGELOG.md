@@ -38,6 +38,10 @@ mehrsprachig (English/Deutsch/日本語/中文, Standard folgt der Systemsprache
   **Desktop-Verknüpfung** (wird beim ersten Start automatisch angelegt und
   ist in *Einstellungen → Design* jederzeit erstell- und entfernbar),
   kompaktes Layout mit automatischer Spaltenbreite.
+- **Schriften** – Text mit japanischen/chinesischen Schriftzeichen wird
+  automatisch mit einer CJK-Schrift (Noto Sans CJK, Droid Sans Fallback …)
+  gesetzt, auch die Maßangaben der Vorschau; ohne diese Erkennung wären die
+  Zeichen als Kästchen gedruckt worden.
 - **Dokumentation** – `README.md` (englische Hauptfassung) mit Übersetzungen in
   `README.de.md`, `README.ja.md` und `README.zh.md` (je mit Screenshot der
   Oberfläche, Schlagwörtern für Suchmaschinen und Verweis auf

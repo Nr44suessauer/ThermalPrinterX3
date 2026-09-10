@@ -51,7 +51,8 @@ from x3print import (DEFAULT_DOTS, DEFAULT_SPEED, DEFAULT_FEED,  # noqa: E402
                      DEFAULT_MODE, X3Printer, render_text,
                      render_image_file, render_ean13, render_qrcode,
                      render_markdown, render_blocks, MD_HELP,
-                     _embed, _scaled, _brightness_density, _load_font)
+                     _embed, _scaled, _brightness_density, _load_font,
+                     load_font_for_text, has_cjk)
 
 CONFIG_PATH = os.path.expanduser("~/.config/x3drucker.json")
 
@@ -2361,21 +2362,25 @@ class X3App:
         disp.paste(raster, (gx, gt))
         dd = ImageDraw.Draw(disp)
         try:
-            f = _load_font(16)
+            f = _load_font(16)                      # small labels (no CJK inside)
             cw_mm = self._pl_cw / g["ppm"]
             ch_mm = self._pl_h / g["ppm"]
-            dd.text((gx + 6, gt + h + 12),
-                    t("Paper {p} mm · content {w} x {h} mm ({pct} %)").format(
-                        p=f"{float(self.paper_mm.get_value()):g}",
-                        w=f"{cw_mm:.1f}", h=f"{ch_mm:.1f}",
-                        pct=int(self.scale_spin.get_value())),
-                    font=f, fill=pv_text)
+            caption = t("Paper {p} mm · content {w} x {h} mm ({pct} %)").format(
+                p=f"{float(self.paper_mm.get_value()):g}",
+                w=f"{cw_mm:.1f}", h=f"{ch_mm:.1f}",
+                pct=int(self.scale_spin.get_value()))
+            # the caption and the "no paper" note are translated - in Japanese or
+            # Chinese they need a CJK font, otherwise they appear as boxes
+            dd.text((gx + 6, gt + h + 12), caption,
+                    font=load_font_for_text(caption, 16), fill=pv_text)
+            no_paper = t("no paper")
+            f_np = load_font_for_text(no_paper, 16)
             if pl > 110:
-                dd.text((gx + max(4, (pl - 110) // 2), 6), t("no paper"),
-                        font=f, fill=(125, 127, 135))
+                dd.text((gx + max(4, (pl - 110) // 2), 6), no_paper,
+                        font=f_np, fill=(125, 127, 135))
             if W - pr > 110:
-                dd.text((gx + pr + max(4, (W - pr - 110) // 2), 6),
-                        t("no paper"), font=f, fill=(125, 127, 135))
+                dd.text((gx + pr + max(4, (W - pr - 110) // 2), 6), no_paper,
+                        font=f_np, fill=(125, 127, 135))
             # 10 mm scale bar at the right of the bottom margin (no clash with text)
             bar = int(round(10 * g["ppm"]))
             bx = gx + max(6, W - bar - 66)
